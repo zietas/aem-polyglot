@@ -1,4 +1,4 @@
-# aem-polyglot
+# AEM Polyglot
 
 TBD
 
