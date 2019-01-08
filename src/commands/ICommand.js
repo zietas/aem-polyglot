@@ -1,7 +1,8 @@
 class ICommand {
   async execute() {
-    throw 'Not implemented';
+    return new Promise(() => {
+      throw 'Not implemented';
+    });
   }
 }
-
 module.exports = ICommand;

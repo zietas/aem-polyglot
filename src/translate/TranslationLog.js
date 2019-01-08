@@ -16,6 +16,10 @@ class TranslationLog {
     return this.log;
   }
 
+  clear() {
+    this.log = {};
+  }
+
   print(){
     for (const key in this.log) {
       console.log(`- ${key}`);

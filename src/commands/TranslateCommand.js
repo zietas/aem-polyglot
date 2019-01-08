@@ -1,66 +1,56 @@
-const YandexTranslate = require('yandex-translate');
 const _ = require('lodash');
 const ICommand = require('./ICommand');
+const Locale = require('../translate/Locale');
 
 class TranslateCommand extends ICommand {
 
-  constructor(sourceDictionary, targetDictionary, translationLog, yandexApiKey) {
+  constructor(sourceDictionary, targetDictionary, translateService) {
     super();
-    this.translationLog = translationLog;
     this.sourceDictionary = sourceDictionary;
     this.targetDictionary = targetDictionary;
-    this.sourceLanguage = this.getLanguage(sourceDictionary);
-    this.targetLanguage = this.getLanguage(targetDictionary);
-    this.translator = YandexTranslate(yandexApiKey);
+    this.translateService = translateService;
+    this.sourceLocale = this.getLocale(sourceDictionary);
+    this.targetLocale = this.getLocale(targetDictionary);
   }
 
   async execute() {
     const sourceEntries = this.getEntries(this.sourceDictionary);
     const targetEntries = this.getEntries(this.targetDictionary);
-    const missingEntries = _.differenceBy(sourceEntries, targetEntries, 'name');
+
+    // TODO add support for finding difference by sling:key
+    const missingEntries = _.difference(Object.keys(sourceEntries), Object.keys(targetEntries));
     const size = _.size(missingEntries);
 
-    let processedCounter = 0;
-
-    return new Promise((resolve) => {
-      if (size > 0) {
-        for (const entry of missingEntries) {
-          const newEntry = _.cloneDeep(entry);
-          const toTranslate = newEntry['attributes']['sling:message'];
-          targetEntries.push(newEntry);
-          this.translationLog.addEntry(newEntry['name'], this.sourceLanguage, toTranslate);
-          this.translator.translate(toTranslate, {to: this.targetLanguage}, (err, res) => {
-            if (err) throw err;
-            newEntry['attributes']['sling:message'] = res.text[0];
-            this.translationLog.addEntry(newEntry['name'], this.targetLanguage, res.text[0]);
-            processedCounter++;
-            if (processedCounter === size) {
-              resolve(this.targetDictionary);
-            }
-          });
-        }
-      } else {
-        throw new Error('No differences found');
+    return new Promise(async (resolve, reject) => {
+      if (size === 0) {
+        reject(`No new entries found between '${this.sourceLocale.getLocaleISOCode()}' and '${this.targetLocale.getLocaleISOCode()}' dictionaries`);
+        return;
       }
+
+      for (const key of missingEntries) {
+        try {
+          const value = sourceEntries[key]['_attributes']['sling:message'];
+          const sourceLang = this.sourceLocale.getLanguageCode();
+          const targetLang = this.targetLocale.getLanguageCode();
+          this.targetDictionary['jcr:root'][key] = await this.translateService.translate(key, value, sourceLang, targetLang);
+        } catch (e) {
+          reject(e);
+        }
+      }
+      resolve(this.targetDictionary);
     });
   }
 
-  getLanguage(dict) {
-    const jcrRoot = this.getJcrRoot(dict);
-    const langCountry = _.split(jcrRoot['attributes']['jcr:language'], '_');
-    return langCountry[0];
+  getLocale(dict) {
+    const jcrLanguage = dict['jcr:root']['_attributes']['jcr:language'];
+    const langCountry = _.split(jcrLanguage, '_');
+    return new Locale(langCountry[0], langCountry[1]);
   }
 
   getEntries(dict) {
-    const jcrRoot = this.getJcrRoot(dict);
-    if (!jcrRoot['elements']) {
-      jcrRoot['elements'] = [];
-    }
-    return jcrRoot['elements'];
-  }
-
-  getJcrRoot(dict) {
-    return _.find(dict['elements'], {name: 'jcr:root'});
+    return _.pickBy(dict['jcr:root'], (value, key) => {
+      return key !== '_attributes';
+    });
   }
 }
 

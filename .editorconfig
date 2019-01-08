@@ -10,3 +10,6 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
 ma_line_length = 130
+
+[*.xml]
+indent_size = 4

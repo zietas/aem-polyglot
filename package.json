@@ -2,13 +2,16 @@
   "name": "aem-polyglot",
   "version": "0.0.1",
   "description": "translate i18n dictionairies with ease using Google Translate. Tool designed mainly for developers. ",
+  "repository": "https://github.com/zietas/aem-polyglot",
   "main": "src/index.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha"
+    "test": "node node_modules/nyc/bin/nyc node_modules/mocha/bin/mocha --recursive",
+    "lint": "node node_modules/.bin/eslint "
   },
   "author": "Michał Ziętek",
   "license": "ISC",
   "dependencies": {
+    "alphabetize-object-keys": "^2.0.1",
     "commander": "^2.19.0",
     "dotenv": "^6.2.0",
     "google-translate": "^2.2.0",
@@ -17,6 +20,11 @@
     "yandex-translate": "^2.1.2"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "sinon": "^7.2.2",
+    "sinon-chai": "^3.3.0"
   }
 }
