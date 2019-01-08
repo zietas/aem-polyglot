@@ -5,8 +5,9 @@
   "repository": "https://github.com/zietas/aem-polyglot",
   "main": "src/index.js",
   "scripts": {
-    "test": "node node_modules/nyc/bin/nyc node_modules/mocha/bin/mocha --recursive",
-    "lint": "node node_modules/.bin/eslint "
+    "test": "node node_modules/nyc/bin/nyc node_modules/mocha/bin/mocha --recursive && npm run lcov-report",
+    "lint": "node node_modules/.bin/eslint ",
+    "lcov-report": "node node_modules/nyc/bin/nyc report --reporter lcov"
   },
   "author": "Michał Ziętek",
   "license": "ISC",

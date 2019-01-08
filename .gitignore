@@ -4,3 +4,4 @@ node_modules
 .yandex-key
 .env
 .nyc_output
+coverage
