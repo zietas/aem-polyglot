@@ -3,11 +3,11 @@ require('dotenv').config();
 
 const program = require('commander');
 const pkg = require('../package.json');
-const DictionaryHandler = require('./DictionaryHandler');
-const YandexTranslateService = require('./translate/YandexTranslateService');
-const TranslateCommand = require('./commands/TranslateCommand');
-const SortCommand = require('./commands/SortCommand');
-const CreateDictionaryCommand = require('./commands/CreateDictionaryCommand');
+
+const createDictionaryCommand = require('./commands/createDictionaryCommand');
+const sortCommand = require('./commands/sortCommand');
+const sortBatchCommand = require('./commands/sortBatchCommand');
+const translateCommand = require('./commands/translateCommand');
 
 program
   .version(pkg.version, '-v, --version')
@@ -17,54 +17,30 @@ program
   .command('create <targetDir> [locales...]')
   .description('creates a brand new empty dictionary')
   .option('-f, --force', 'Force create new dictionary. Action will override any existing dictionaries.')
-  .action(async (targetDir, locales, options) => {
-    for (const locale of locales) {
-      const target = `${targetDir}/${locale}.xml`;
-
-      if (!DictionaryHandler.exists(target) || options.force) {
-        if (options.force) {
-          console.log(`Overwriting dictionary under path '${target}'`);
-        }
-        const cmd = new CreateDictionaryCommand(locale);
-        const dict = await cmd.execute();
-        await DictionaryHandler.saveDict(dict, target);
-      } else {
-        console.warn(`Dictionary under path '${target}' exists. Skipping creation`);
-      }
-    }
-  });
+  .action(createDictionaryCommand);
 
 program
   .command('sort <source>')
   .description('sorts entries in provided dictionary')
-  .action(async (source) => {
-    const sourceDict = await DictionaryHandler.readDict(source);
-    const cmd = new SortCommand(sourceDict);
-    const sortedDict = await cmd.execute();
-    await DictionaryHandler.saveDict(sortedDict, source);
-  });
+  .action(sortCommand);
+
+program
+  .command('sort-batch <directory>')
+  .description('sorts all dictionaries found in given directory')
+  .action(sortBatchCommand);
 
 program
   .command('translate <source> <target>')
   .description('based on master dictionary <source> it searches for missing keys in <target> dictionary and translates them')
-  // TODO implement in future
-  // .option('disableSorting', 'Disable dictionary sorting')
-  .option('yandexApiKey', 'Yandex API Key')
-  .action(async (source, target, options) => {
-    const translateService = new YandexTranslateService(process.env.YANDEX_API_KEY || options.yandexApiKey);
+  .option('--disableSorting', 'Disable dictionary sorting')
+  .option('--yandexApiKey <key>', 'Yandex API Key')
+  .action(translateCommand);
 
-    const sourceDict = await DictionaryHandler.readDict(source);
-    const targetDict = await DictionaryHandler.readDict(target);
-    const translateCmd = new TranslateCommand(sourceDict, targetDict, translateService);
-
-    translateCmd.execute()
-      .then((translatedDict) => {
-        DictionaryHandler.saveDict(translatedDict, target);
-        translateService.log.print();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+program
+  .command('translate-batch <directory> <sourceDict>')
+  .description('batch translates all dictionaries in a <directory> based on defined <sourceDict>')
+  .option('disableSorting', 'Disable dictionary sorting')
+  .option('--yandexApiKey <key>', 'Yandex API Key')
+  .action();
 
 program.parse(process.argv);

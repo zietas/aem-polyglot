@@ -1,117 +1,72 @@
 const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
 const sinon = require('sinon');
+const proxyquire = require('proxyquire');
 const expect = chai.expect;
-const TranslateCommand = require('../../src/commands/TranslateCommand');
+const dictionaryService = require('../../src/dictionaryService');
 
-chai.use(chaiAsPromised);
-
-function createDict (locale) {
-  const dict = {
-    'jcr:root': {
-      '_attributes': {}
-    }
-  };
-  if (locale) {
-    dict['jcr:root']['_attributes']['jcr:language'] = locale;
+const yandexTranslateStub = sinon.stub();
+const dictionaryTranslateStub = sinon.stub();
+const tested = proxyquire('../../src/commands/translateCommand', {
+  '../../src/translate/YandexTranslateService': function () {
+    return {
+      translate: yandexTranslateStub
+    };
+  },
+  '../../src/translate/TranslateDictionaryService': function () {
+    return {
+      translate: dictionaryTranslateStub
+    };
   }
-  return dict;
-}
+});
 
-function createEntry (key, value) {
-  return {
-    'jcr:primaryType': 'sling:MessageEntry',
-    'sling:key': key,
-    'sling:message': value
-  };
-}
+yandexTranslateStub.callsFake(() => {
+  return new Promise((resolve) => {
+    resolve({newDict: true});
+  });
+});
 
-function addEntry (dict, entry) {
-  const key = entry['sling:key'];
-  dict['jcr:root'][key] = {};
-  dict['jcr:root'][key]['_attributes'] = entry;
-}
+describe('translateCommand', () => {
 
-describe('TranslateCommand', () => {
-  describe('#constructor', () => {
-    it('should fail if locale cannot be extracted from source dict', () => {
-      const sourceDict = createDict();
-      const targetDict = createDict();
+  beforeEach(() => {
+    this.consoleSpy = sinon.spy(console, 'log');
+    this.readDictStub = sinon.stub(dictionaryService, 'readDict');
+    this.sortStub = sinon.stub(dictionaryService, 'sort');
+    this.saveDictStub = sinon.stub(dictionaryService, 'saveDict');
 
-      expect(() => {
-        new TranslateCommand(sourceDict, targetDict, null);
-      }).to.throw('Could not extract locale from input dictionary');
-    });
-
-    it('should initialize correctly if locale is provided', () => {
-      const sourceDict = createDict('en_us');
-      const targetDict = createDict('de_de');
-
-      const tested = new TranslateCommand(sourceDict, targetDict, null);
-
-      expect(tested.sourceLocale.getLocaleISOCode()).to.be.equal('en_us');
-      expect(tested.targetLocale.getLocaleISOCode()).to.be.equal('de_de');
-    });
+    this.readDictStub.onCall(0).returns({});
+    this.readDictStub.onCall(1).returns({});
   });
 
-  describe('#execute', () => {
-    const sourceDict = createDict('en_us');
-    addEntry(sourceDict, createEntry('key1', 'value1'));
-    addEntry(sourceDict, createEntry('key2', 'value2'));
-    addEntry(sourceDict, createEntry('key3', 'value3'));
+  afterEach(() => {
+    this.consoleSpy.restore();
+    this.readDictStub.restore();
+    this.sortStub.restore();
+    this.saveDictStub.restore();
+  });
 
-    const mockedTranslationService = sinon.mock({
-      translate: async function (key, value, sourceLang, targetLang) {
-        return new Promise((resolve) => {
-          resolve({ text: [`${value} ${targetLang}`] });
-        });
-      }
-    });
+  it('should not process without Yandex API key', async () => {
+    await tested('./source.xml', './target.xml', {});
 
-    // TODO cover
-    // it('should translate whole dictionary as target is empty', (done) => {
-    //   const targetDict = createDict('de_de');
-    //
-    //   let tested = new TranslateCommand(sourceDict, targetDict, mockedTranslationService);
-    //
-    //   return tested.execute()
-    //     .then((dict) => {
-    //
-    //
-    //       expect(dict['jcr:root']['_attributes']['jcr:language']).to.be.equal('de_de');
-    //       done();
-    //     });
-    // });
-    //
-    // it('should translate part of the dictionary as target has some entries', () => {
-    //
-    // });
+    expect(this.consoleSpy).to.have.been.calledWithExactly("Yandex API key is not defined");
+  });
 
-    it('should not translate anything as all keys in target are set', () => {
-      const targetDict = createDict('de_de');
-      addEntry(targetDict, createEntry('key1', 'value1 de'));
-      addEntry(targetDict, createEntry('key2', 'value2 de'));
-      addEntry(targetDict, createEntry('key3', 'value3 de'));
+  it('should not sort translated dict if sorting is diabled', async () => {
+    await tested('./source.xml', './target.xml', {yandexApiKey: 'fakeKey', disableSorting: true});
 
-      let tested = new TranslateCommand(sourceDict, targetDict, mockedTranslationService);
+    expect(this.sortStub).to.not.have.been.called;
+  });
 
-      return expect(tested.execute()).to.be.rejectedWith('No new entries found between \'en_us\' and \'de_de\' dictionaries');
-    });
+  it('should process command normally', async () => {
+    await tested('./source.xml', './target.xml', {yandexApiKey: 'fakeKey'});
 
-    it('should fail when translation service fails', () => {
-      const targetDict = createDict('de_de');
+    expect(this.sortStub).to.have.been.calledOnce;
+  });
 
-      const mockedTranslationServiceFailure = sinon.mock({
-        translate: () => {
-          return new Promise((resolv, reject) => {
-            reject({ code: 500 });
-          });
-        }
-      });
+  it('should handle exceptions in case something goes south', async () => {
+    dictionaryTranslateStub.throws(new Error('what a terrible failure!'));
 
-      let tested = new TranslateCommand(sourceDict, targetDict, mockedTranslationServiceFailure);
+    await tested('./source.xml', './target.xml', {yandexApiKey: 'fakeKey'});
 
-      return expect(tested.execute()).to.be.rejected;
-    });
+    expect(this.consoleSpy).to.have.been.calledWithExactly("Failed to process translate command. Reason:");
   });
 });
