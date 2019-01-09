@@ -11,6 +11,8 @@ class TranslateCommand extends ICommand {
     this.translateService = translateService;
     this.sourceLocale = this.getLocale(sourceDictionary);
     this.targetLocale = this.getLocale(targetDictionary);
+    this.validateLocale(this.sourceLocale);
+    this.validateLocale(this.targetLocale);
   }
 
   async execute() {
@@ -42,15 +44,19 @@ class TranslateCommand extends ICommand {
   }
 
   getLocale(dict) {
-    const jcrLanguage = dict['jcr:root']['_attributes']['jcr:language'];
-    const langCountry = _.split(jcrLanguage, '_');
-    return new Locale(langCountry[0], langCountry[1]);
+    return Locale.fromLocaleIsoCode(dict['jcr:root']['_attributes']['jcr:language']);
   }
 
   getEntries(dict) {
     return _.pickBy(dict['jcr:root'], (value, key) => {
       return key !== '_attributes';
     });
+  }
+
+  validateLocale(locale) {
+    if (locale.getLocaleISOCode() === '') {
+      throw new Error('Could not extract locale from input dictionary');
+    }
   }
 }
 

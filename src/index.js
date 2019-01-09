@@ -2,11 +2,8 @@
 require('dotenv').config();
 
 const program = require('commander');
-const YandexTranslate = require('yandex-translate');
-
 const pkg = require('../package.json');
 const DictionaryHandler = require('./DictionaryHandler');
-const TranslationLog = require('./translate/TranslationLog');
 const YandexTranslateService = require('./translate/YandexTranslateService');
 const TranslateCommand = require('./commands/TranslateCommand');
 const SortCommand = require('./commands/SortCommand');
@@ -17,15 +14,25 @@ program
   .description('This tool is designed mainly for developers who are tasked to translate automatically AEM dictionaries into other languages.');
 
 program
-  .command('create <targetDir> <language> [country]')
+  .command('create <targetDir> [locales...]')
   .description('creates a brand new empty dictionary')
-  //  TODO implement in future
-  // .option('-f, --force', 'Force create new dictionary. Action will override any existing dictionaries.')
-  .action(async (targetDir, language, country, options) => {
-    const cmd = new CreateDictionaryCommand(language, country);
-    const dict = await cmd.execute();
-    const target = `${targetDir}/${cmd.getCountryISOCode()}.xml`;
-    await DictionaryHandler.saveDict(dict, target);
+  .option('-f, --force', 'Force create new dictionary. Action will override any existing dictionaries.')
+  .action(async (targetDir, locales, options) => {
+
+    for (const locale of locales) {
+      const target = `${targetDir}/${locale}.xml`;
+
+      if (!DictionaryHandler.exists(target) || options.force) {
+        if(options.force){
+          console.log(`Overwriting dictionary under path '${target}'` )
+        }
+        const cmd = new CreateDictionaryCommand(locale);
+        const dict = await cmd.execute();
+        await DictionaryHandler.saveDict(dict, target);
+      } else {
+        console.warn(`Dictionary under path '${target}' exists. Skipping creation`);
+      }
+    }
   });
 
 program

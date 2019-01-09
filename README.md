@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/zietas/aem-polyglot.svg?branch=master)](https://travis-ci.org/zietas/aem-polyglot) 
 [![Coverage Status](https://coveralls.io/repos/github/zietas/aem-polyglot/badge.svg?branch=master)](https://coveralls.io/github/zietas/aem-polyglot?branch=master)
-
 # AEM Polyglot
 
 This tool is designed mainly for developers who are tasked to translate automatically AEM dictionaries into other languages. 

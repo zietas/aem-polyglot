@@ -13,6 +13,11 @@ const JSON_TO_XML_OPTIONS = {
 };
 
 class DictionaryHandler {
+
+  static exists(path) {
+    return fs.existsSync(path);
+  }
+
   static async readDict(source) {
     return new Promise((resolve, reject) => {
       fs.readFile(source, 'utf-8', (err, data) => {
@@ -31,14 +36,14 @@ class DictionaryHandler {
   }
 
   static async saveDict(jsonDict, target) {
-    function isValidDictionary(dict){
+    function isValidDictionary(dict) {
       return _.isObject(dict) && dict['_declaration'] && dict['jcr:root'];
     }
 
     return new Promise((resolve, reject) => {
       try {
-        if(!isValidDictionary(jsonDict)){
-          reject("Given dictionary is not an object");
+        if (!isValidDictionary(jsonDict)) {
+          reject('Given dictionary is not an object');
           return;
         }
         const xml = converter.js2xml(jsonDict, JSON_TO_XML_OPTIONS);

@@ -19,9 +19,9 @@ const TEMPLATE = {
 };
 
 class CreateDictionaryCommand extends ICommand {
-  constructor(language, country) {
+  constructor(isoCode) {
     super();
-    this.locale = new Locale(language, country);
+    this.locale = Locale.fromLocaleIsoCode(isoCode);
   }
 
   async execute() {
