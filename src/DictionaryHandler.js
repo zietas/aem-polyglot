@@ -2,6 +2,8 @@ const fs = require('fs');
 const converter = require('xml-js');
 const _ = require('lodash');
 
+const XML_DECLARATION = '<?xml version="1.0" encoding="UTF-8"?>';
+
 const XML_TO_JSON_OPTIONS = {
   compact: true
 };
@@ -9,15 +11,16 @@ const XML_TO_JSON_OPTIONS = {
 const JSON_TO_XML_OPTIONS = {
   compact: true,
   spaces: 4,
-  indentAttributes: true
+  indentAttributes: true,
+  ignoreDeclaration: true
 };
 
 class DictionaryHandler {
-  static exists (path) {
+  static exists(path) {
     return fs.existsSync(path);
   }
 
-  static async readDict (source) {
+  static async readDict(source) {
     return new Promise((resolve, reject) => {
       fs.readFile(source, 'utf-8', (err, data) => {
         if (err) {
@@ -34,8 +37,8 @@ class DictionaryHandler {
     });
   }
 
-  static async saveDict (jsonDict, target) {
-    function isValidDictionary (dict) {
+  static async saveDict(jsonDict, target) {
+    function isValidDictionary(dict) {
       return _.isObject(dict) && dict['_declaration'] && dict['jcr:root'];
     }
 
@@ -45,7 +48,10 @@ class DictionaryHandler {
           reject('Given dictionary is not an object');
           return;
         }
-        const xml = converter.js2xml(jsonDict, JSON_TO_XML_OPTIONS);
+        let xml = converter.js2xml(jsonDict, JSON_TO_XML_OPTIONS);
+        xml = XML_DECLARATION + xml;
+        xml = _.replace(xml, /\n[\ ]*\/\>/mg, '/>');
+        xml = _.replace(xml, /\n[\ ]*\>/mg, '>');
         fs.writeFile(target, xml, 'utf-8', (err) => {
           if (err) {
             reject(reject);
