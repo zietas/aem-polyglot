@@ -8,7 +8,6 @@ const TranslationLog = require('../../src/translate/TranslationLog');
 chai.use(sinonChai);
 
 describe('TranslationLog', () => {
-
   let tested;
 
   let consoleSpy;
@@ -27,7 +26,7 @@ describe('TranslationLog', () => {
       tested.addEntry('some.key', 'en', 'lorem ipsum');
 
       expect(tested.getLog()).to.have.own.property('some.key');
-      expect(tested.getEntry('some.key')).to.deep.equal({'en': 'lorem ipsum'});
+      expect(tested.getEntry('some.key')).to.deep.equal({ 'en': 'lorem ipsum' });
     });
 
     it('should add 3 new entries', () => {
@@ -70,7 +69,6 @@ describe('TranslationLog', () => {
 
   describe('#print()', () => {
     it('should not print anything if empty', () => {
-
       tested.print();
 
       expect(consoleSpy).to.have.callCount(0);

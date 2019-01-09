@@ -1,26 +1,26 @@
 class TranslationLog {
-  constructor() {
+  constructor () {
     this.log = {};
   }
 
-  addEntry(key, lang, translation) {
+  addEntry (key, lang, translation) {
     this.log[key] = this.log[key] || {};
     this.log[key][lang] = translation;
   }
 
-  getEntry(key) {
+  getEntry (key) {
     return this.log[key];
   }
 
-  getLog() {
+  getLog () {
     return this.log;
   }
 
-  clear() {
+  clear () {
     this.log = {};
   }
 
-  print(){
+  print () {
     for (const key in this.log) {
       console.log(`- ${key}`);
       for (const lang in this.log[key]) {

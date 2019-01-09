@@ -6,7 +6,7 @@ const TranslateCommand = require('../../src/commands/TranslateCommand');
 
 chai.use(chaiAsPromised);
 
-function createDict(locale) {
+function createDict (locale) {
   const dict = {
     'jcr:root': {
       '_attributes': {}
@@ -18,7 +18,7 @@ function createDict(locale) {
   return dict;
 }
 
-function createEntry(key, value) {
+function createEntry (key, value) {
   return {
     'jcr:primaryType': 'sling:MessageEntry',
     'sling:key': key,
@@ -26,14 +26,13 @@ function createEntry(key, value) {
   };
 }
 
-function addEntry(dict, entry) {
+function addEntry (dict, entry) {
   const key = entry['sling:key'];
   dict['jcr:root'][key] = {};
   dict['jcr:root'][key]['_attributes'] = entry;
 }
 
 describe('TranslateCommand', () => {
-
   describe('#constructor', () => {
     it('should fail if locale cannot be extracted from source dict', () => {
       const sourceDict = createDict();
@@ -56,7 +55,6 @@ describe('TranslateCommand', () => {
   });
 
   describe('#execute', () => {
-
     const sourceDict = createDict('en_us');
     addEntry(sourceDict, createEntry('key1', 'value1'));
     addEntry(sourceDict, createEntry('key2', 'value2'));
@@ -65,12 +63,12 @@ describe('TranslateCommand', () => {
     const mockedTranslationService = sinon.mock({
       translate: async function (key, value, sourceLang, targetLang) {
         return new Promise((resolve) => {
-          resolve({text: [`${value} ${targetLang}`]});
+          resolve({ text: [`${value} ${targetLang}`] });
         });
       }
     });
 
-    //TODO cover
+    // TODO cover
     // it('should translate whole dictionary as target is empty', (done) => {
     //   const targetDict = createDict('de_de');
     //
@@ -106,7 +104,7 @@ describe('TranslateCommand', () => {
       const mockedTranslationServiceFailure = sinon.mock({
         translate: () => {
           return new Promise((resolv, reject) => {
-            reject({code: 500});
+            reject({ code: 500 });
           });
         }
       });

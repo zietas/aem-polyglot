@@ -6,7 +6,6 @@ const TranslateService = require('../../src/translate/TranslateService');
 chai.use(chaiAsPromised);
 
 describe('TranslateService', () => {
-
   let tested;
 
   beforeEach(() => {

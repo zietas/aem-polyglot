@@ -1,12 +1,11 @@
 const chai = require('chai');
-const chaiAsPromised = require("chai-as-promised");
+const chaiAsPromised = require('chai-as-promised');
 const expect = chai.expect;
 const ICommand = require('../../src/commands/ICommand');
 
 chai.use(chaiAsPromised);
 
 describe('ICommand', () => {
-
   let tested;
 
   beforeEach(() => {

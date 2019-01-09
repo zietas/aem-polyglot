@@ -18,13 +18,12 @@ program
   .description('creates a brand new empty dictionary')
   .option('-f, --force', 'Force create new dictionary. Action will override any existing dictionaries.')
   .action(async (targetDir, locales, options) => {
-
     for (const locale of locales) {
       const target = `${targetDir}/${locale}.xml`;
 
       if (!DictionaryHandler.exists(target) || options.force) {
-        if(options.force){
-          console.log(`Overwriting dictionary under path '${target}'` )
+        if (options.force) {
+          console.log(`Overwriting dictionary under path '${target}'`);
         }
         const cmd = new CreateDictionaryCommand(locale);
         const dict = await cmd.execute();
@@ -66,7 +65,6 @@ program
       .catch((err) => {
         console.log(err);
       });
-
   });
 
 program.parse(process.argv);

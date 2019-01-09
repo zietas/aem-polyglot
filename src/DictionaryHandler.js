@@ -13,12 +13,11 @@ const JSON_TO_XML_OPTIONS = {
 };
 
 class DictionaryHandler {
-
-  static exists(path) {
+  static exists (path) {
     return fs.existsSync(path);
   }
 
-  static async readDict(source) {
+  static async readDict (source) {
     return new Promise((resolve, reject) => {
       fs.readFile(source, 'utf-8', (err, data) => {
         if (err) {
@@ -35,8 +34,8 @@ class DictionaryHandler {
     });
   }
 
-  static async saveDict(jsonDict, target) {
-    function isValidDictionary(dict) {
+  static async saveDict (jsonDict, target) {
+    function isValidDictionary (dict) {
       return _.isObject(dict) && dict['_declaration'] && dict['jcr:root'];
     }
 

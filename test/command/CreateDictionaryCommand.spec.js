@@ -3,7 +3,6 @@ const expect = chai.expect;
 const CreateDictionaryCommand = require('../../src/commands/CreateDictionaryCommand');
 
 describe('CreateDictionaryCommand', () => {
-
   describe('#execute', () => {
     it('should create new en dict', () => {
       let tested = new CreateDictionaryCommand('en');

@@ -3,7 +3,12 @@ const ICommand = require('./ICommand');
 const Locale = require('../translate/Locale');
 
 const TEMPLATE = {
-  _declaration: {_attributes: {encoding: 'UTF-8', version: '1.0'}},
+  _declaration: {
+    _attributes: {
+      encoding: 'UTF-8',
+      version: '1.0'
+    }
+  },
   'jcr:root':
     {
       _attributes:
@@ -19,12 +24,12 @@ const TEMPLATE = {
 };
 
 class CreateDictionaryCommand extends ICommand {
-  constructor(isoCode) {
+  constructor (isoCode) {
     super();
     this.locale = Locale.fromLocaleIsoCode(isoCode);
   }
 
-  async execute() {
+  async execute () {
     return new Promise((resolve) => {
       const dict = _.cloneDeep(TEMPLATE);
       dict['jcr:root']['_attributes']['jcr:language'] = this.locale.getLocaleISOCode();
@@ -34,4 +39,3 @@ class CreateDictionaryCommand extends ICommand {
 }
 
 module.exports = CreateDictionaryCommand;
-

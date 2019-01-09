@@ -1,26 +1,25 @@
 const _ = require('lodash');
 
 class Locale {
-
-  static fromLocaleIsoCode(localeIso){
+  static fromLocaleIsoCode (localeIso) {
     const langCountry = _.split(localeIso, '_');
     return new Locale(langCountry[0], langCountry[1]);
   }
 
-  constructor(language, country) {
+  constructor (language, country) {
     this.language = language;
     this.country = country;
   }
 
-  getLanguageCode() {
+  getLanguageCode () {
     return this.language;
   }
 
-  getCountryCode() {
+  getCountryCode () {
     return this.country;
   }
 
-  getLocaleISOCode() {
+  getLocaleISOCode () {
     let result = this.language;
     if (this.country) {
       result += '_' + this.country;

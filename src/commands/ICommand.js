@@ -1,7 +1,7 @@
 class ICommand {
-  async execute() {
+  async execute () {
     return new Promise(() => {
-      throw 'Not implemented';
+      throw new Error('Not implemented');
     });
   }
 }

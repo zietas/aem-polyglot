@@ -3,8 +3,7 @@ const ICommand = require('./ICommand');
 const Locale = require('../translate/Locale');
 
 class TranslateCommand extends ICommand {
-
-  constructor(sourceDictionary, targetDictionary, translateService) {
+  constructor (sourceDictionary, targetDictionary, translateService) {
     super();
     this.sourceDictionary = sourceDictionary;
     this.targetDictionary = targetDictionary;
@@ -15,7 +14,7 @@ class TranslateCommand extends ICommand {
     this.validateLocale(this.targetLocale);
   }
 
-  async execute() {
+  async execute () {
     const sourceEntries = this.getEntries(this.sourceDictionary);
     const targetEntries = this.getEntries(this.targetDictionary);
 
@@ -43,17 +42,17 @@ class TranslateCommand extends ICommand {
     });
   }
 
-  getLocale(dict) {
+  getLocale (dict) {
     return Locale.fromLocaleIsoCode(dict['jcr:root']['_attributes']['jcr:language']);
   }
 
-  getEntries(dict) {
+  getEntries (dict) {
     return _.pickBy(dict['jcr:root'], (value, key) => {
       return key !== '_attributes';
     });
   }
 
-  validateLocale(locale) {
+  validateLocale (locale) {
     if (locale.getLocaleISOCode() === '') {
       throw new Error('Could not extract locale from input dictionary');
     }

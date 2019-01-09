@@ -9,7 +9,6 @@ const DictionaryHandler = require('../src/DictionaryHandler');
 chai.use(chaiAsPromised);
 
 describe('DictionaryHandler', () => {
-
   describe('#readDict()', () => {
     it('should throw error when file does not exists', () => {
       const source = './test/resources/not-existing-file';
@@ -60,7 +59,7 @@ describe('DictionaryHandler', () => {
     });
 
     it('should throw error when dictionary JS has no declaration node', () => {
-      const jsonDict = {elements: []};
+      const jsonDict = { elements: [] };
 
       const promise = DictionaryHandler.saveDict(jsonDict);
 
@@ -68,9 +67,9 @@ describe('DictionaryHandler', () => {
     });
 
     it('should throw error when fails to save', () => {
-      const jsonDict = {'jcr:root': [], '_declaration': []};
+      const jsonDict = { 'jcr:root': [], '_declaration': [] };
       fsWriteFile.callsFake(() => {
-        throw 'Failed to open file';
+        throw new Error('Failed to open file');
       });
 
       const promise = DictionaryHandler.saveDict(jsonDict);

@@ -6,10 +6,9 @@ const SortCommand = require('../../src/commands/SortCommand');
 chai.use(chaiAsPromised);
 
 describe('SortCommand', () => {
-
   describe('#execute', () => {
     it('should sort properties of a single level object', async () => {
-      const input = {z: 'some value', a: 'oother', c: 1};
+      const input = { z: 'some value', a: 'oother', c: 1 };
       const expectedOutcome = Object.keys(input).sort();
       const tested = new SortCommand(input);
 
