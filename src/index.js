@@ -8,7 +8,7 @@ const createDictionaryCommand = require('./commands/createDictionaryCommand');
 const sortCommand = require('./commands/sortCommand');
 const sortBatchCommand = require('./commands/sortBatchCommand');
 const translateCommand = require('./commands/translateCommand');
-
+const translateBatchCommand = require('./commands/translateBatchCommand');
 program
   .version(pkg.version, '-v, --version')
   .description('This tool is designed mainly for developers who are tasked to translate automatically AEM dictionaries into other languages.');
@@ -39,8 +39,8 @@ program
 program
   .command('translate-batch <directory> <sourceDict>')
   .description('batch translates all dictionaries in a <directory> based on defined <sourceDict>')
-  .option('disableSorting', 'Disable dictionary sorting')
+  .option('--disableSorting', 'Disable dictionary sorting')
   .option('--yandexApiKey <key>', 'Yandex API Key')
-  .action();
+  .action(translateBatchCommand);
 
 program.parse(process.argv);

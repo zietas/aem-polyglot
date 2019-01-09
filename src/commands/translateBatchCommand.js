@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const dictionaryService = require('../dictionaryService');
 const translateCommand = require('./translateCommand');
 
@@ -8,7 +9,7 @@ async function translateBatchCommand(directory, sourceDict, options) {
 
   try {
     for (const path of paths) {
-      await translateCommand(`${directory}/${sourceDict}.xml`, `${directory}/${path}`, options, translateService);
+      await translateCommand(`${directory}/${sourceDict}.xml`, `${directory}/${path}`, options);
     }
   } catch (e) {
     console.log(e);

@@ -9,7 +9,7 @@ async function translateCommand(source, target, options) {
     return;
   }
   try {
-    console.log(`Translating '${target}' based on '${target}'`);
+    console.log(`Translating '${target}' \t based on \t '${source}'`);
     const sourceDict = await dictionaryService.readDict(source);
     const targetDict = await dictionaryService.readDict(target);
     const translationService = new YandexTranslateService(apiKey);
