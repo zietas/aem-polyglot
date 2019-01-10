@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zietas/aem-polyglot.svg?branch=master)](https://travis-ci.org/zietas/aem-polyglot) 
 [![Coverage Status](https://coveralls.io/repos/github/zietas/aem-polyglot/badge.svg?branch=master)](https://coveralls.io/github/zietas/aem-polyglot?branch=master)
-[![Node version](https://img.shields.io/node/v/aem-polyglot.svg?style=flat)](http://nodejs.org/download/)
+[![Node version](https://img.shields.io/node/v/aem-polyglot.svg?style=flat)](https://www.npmjs.com/package/aem-polyglot)
 [![dependencies Status](https://david-dm.org/zietas/aem-polyglot/status.svg)](https://david-dm.org/zietas/aem-polyglot)
 [![devDependencies Status](https://david-dm.org/zietas/aem-polyglot/dev-status.svg)](https://david-dm.org/zietas/aem-polyglot?type=dev)
 
