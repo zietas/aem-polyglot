@@ -1,6 +1,6 @@
 {
   "name": "aem-polyglot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "translate i18n dictionairies with ease using Google Translate. Tool designed mainly for developers. ",
   "repository": "https://github.com/zietas/aem-polyglot",
   "main": "src/index.js",
@@ -11,8 +11,19 @@
     "lcov-report": "node node_modules/nyc/bin/nyc report --reporter lcov",
     "coveralls-report": "node node_modules/nyc/bin/nyc report --reporter lcov"
   },
-  "author": "Michał Ziętek",
-  "license": "ISC",
+  "bin": {
+    "aem-polyglot": "./src/aem-polyglot"
+  },
+  "keywords": [
+    "AEM",
+    "CQ",
+    "Sling",
+    "i18n",
+    "translate",
+    "dictionary"
+  ],
+  "author": "Michał Ziętek <michal.zietek@panda-soft.io>",
+  "license": "MIT",
   "dependencies": {
     "alphabetize-object-keys": "^2.0.1",
     "commander": "^2.19.0",
