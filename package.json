@@ -1,6 +1,6 @@
 {
   "name": "aem-polyglot",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "translate i18n dictionairies with ease using Google Translate. Tool designed mainly for developers. ",
   "repository": "https://github.com/zietas/aem-polyglot",
   "main": "src/index.js",
@@ -12,7 +12,7 @@
     "coveralls-report": "node node_modules/nyc/bin/nyc report --reporter lcov"
   },
   "bin": {
-    "aem-polyglot": "./src/aem-polyglot"
+    "aem-polyglot": "./bin/aem-polyglot"
   },
   "keywords": [
     "AEM",
