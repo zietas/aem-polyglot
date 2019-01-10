@@ -5,6 +5,7 @@
 [![Node version](https://img.shields.io/node/v/aem-polyglot.svg?style=flat)](https://www.npmjs.com/package/aem-polyglot)
 [![dependencies Status](https://david-dm.org/zietas/aem-polyglot/status.svg)](https://david-dm.org/zietas/aem-polyglot)
 [![devDependencies Status](https://david-dm.org/zietas/aem-polyglot/dev-status.svg)](https://david-dm.org/zietas/aem-polyglot?type=dev)
+[![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
 # AEM Polyglot
 
