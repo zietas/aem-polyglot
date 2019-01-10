@@ -9,7 +9,7 @@ async function translateCommand (source, target, options) {
     return;
   }
   try {
-    console.log(`Translating '${target}' \t based on \t '${source}'`);
+    console.log(`Translating '${target}'`);
     const sourceDict = await dictionaryService.readDict(source);
     const targetDict = await dictionaryService.readDict(target);
     const translationService = new YandexTranslateService(apiKey);
@@ -21,8 +21,7 @@ async function translateCommand (source, target, options) {
     }
     await dictionaryService.saveDict(translatedDict, target);
   } catch (e) {
-    console.log('Failed to process translate command. Reason:');
-    console.log(e);
+    console.log(e.message);
   }
 }
 

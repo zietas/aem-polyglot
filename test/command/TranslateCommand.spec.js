@@ -66,6 +66,6 @@ describe('translateCommand', () => {
 
     await tested('./source.xml', './target.xml', { yandexApiKey: 'fakeKey' });
 
-    expect(this.consoleSpy).to.have.been.calledWithExactly('Failed to process translate command. Reason:');
+    expect(this.consoleSpy).to.have.been.calledWithExactly('what a terrible failure!');
   });
 });

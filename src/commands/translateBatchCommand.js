@@ -12,7 +12,7 @@ async function translateBatchCommand (directory, sourceDict, options) {
       await translateCommand(`${directory}/${sourceDict}.xml`, `${directory}/${path}`, options);
     }
   } catch (e) {
-    console.log(e);
+    console.log(e.message);
   }
 }
 
