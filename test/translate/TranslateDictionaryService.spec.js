@@ -8,7 +8,7 @@ const TranslateDictionaryService = require('../../src/translate/TranslateDiction
 chai.use(chaiAsPromised);
 chai.use(chaiArrays);
 
-function createDict(locale) {
+function createDict (locale) {
   const dict = {
     'jcr:root': {
       '_attributes': {}
@@ -20,7 +20,7 @@ function createDict(locale) {
   return dict;
 }
 
-function createEntry(key, value) {
+function createEntry (key, value) {
   return {
     'jcr:primaryType': 'sling:MessageEntry',
     'sling:key': key,
@@ -28,7 +28,7 @@ function createEntry(key, value) {
   };
 }
 
-function addEntry(dict, entry) {
+function addEntry (dict, entry) {
   const key = entry['sling:key'];
   dict['jcr:root'][key] = {};
   dict['jcr:root'][key]['_attributes'] = entry;
@@ -49,7 +49,6 @@ const mockedTranslationService = {
 };
 
 describe('TranslateDictionaryService', () => {
-
   describe('#constructor', () => {
     it('should initialize', () => {
       const tested = new TranslateDictionaryService(mockedTranslationService);
@@ -119,8 +118,8 @@ describe('TranslateDictionaryService', () => {
 
       const mockedTranslationServiceFailure = sinon.mock({
         translate: () => {
-          return new Promise((resolv, reject) => {
-            reject({code: 500});
+          return new Promise((resolve, reject) => {
+            resolve({ code: 500 });
           });
         }
       });
@@ -131,4 +130,3 @@ describe('TranslateDictionaryService', () => {
     });
   });
 });
-

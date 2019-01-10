@@ -2,10 +2,10 @@ const dictionaryService = require('../dictionaryService');
 const YandexTranslateService = require('../translate/YandexTranslateService');
 const TranslateDictionaryService = require('../translate/TranslateDictionaryService');
 
-async function translateCommand(source, target, options) {
+async function translateCommand (source, target, options) {
   const apiKey = process.env.YANDEX_API_KEY || options.yandexApiKey;
   if (!apiKey) {
-    console.log('Yandex API key is not defined')
+    console.log('Yandex API key is not defined');
     return;
   }
   try {

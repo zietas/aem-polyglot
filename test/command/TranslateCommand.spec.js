@@ -21,12 +21,11 @@ const tested = proxyquire('../../src/commands/translateCommand', {
 
 yandexTranslateStub.callsFake(() => {
   return new Promise((resolve) => {
-    resolve({newDict: true});
+    resolve({ newDict: true });
   });
 });
 
 describe('translateCommand', () => {
-
   beforeEach(() => {
     this.consoleSpy = sinon.spy(console, 'log');
     this.readDictStub = sinon.stub(dictionaryService, 'readDict');
@@ -47,17 +46,17 @@ describe('translateCommand', () => {
   it('should not process without Yandex API key', async () => {
     await tested('./source.xml', './target.xml', {});
 
-    expect(this.consoleSpy).to.have.been.calledWithExactly("Yandex API key is not defined");
+    expect(this.consoleSpy).to.have.been.calledWithExactly('Yandex API key is not defined');
   });
 
   it('should not sort translated dict if sorting is diabled', async () => {
-    await tested('./source.xml', './target.xml', {yandexApiKey: 'fakeKey', disableSorting: true});
+    await tested('./source.xml', './target.xml', { yandexApiKey: 'fakeKey', disableSorting: true });
 
     expect(this.sortStub).to.not.have.been.called;
   });
 
   it('should process command normally', async () => {
-    await tested('./source.xml', './target.xml', {yandexApiKey: 'fakeKey'});
+    await tested('./source.xml', './target.xml', { yandexApiKey: 'fakeKey' });
 
     expect(this.sortStub).to.have.been.calledOnce;
   });
@@ -65,8 +64,8 @@ describe('translateCommand', () => {
   it('should handle exceptions in case something goes south', async () => {
     dictionaryTranslateStub.throws(new Error('what a terrible failure!'));
 
-    await tested('./source.xml', './target.xml', {yandexApiKey: 'fakeKey'});
+    await tested('./source.xml', './target.xml', { yandexApiKey: 'fakeKey' });
 
-    expect(this.consoleSpy).to.have.been.calledWithExactly("Failed to process translate command. Reason:");
+    expect(this.consoleSpy).to.have.been.calledWithExactly('Failed to process translate command. Reason:');
   });
 });

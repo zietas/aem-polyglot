@@ -1,8 +1,8 @@
 const Locale = require('../translate/Locale');
 const dictionaryService = require('../dictionaryService');
 
-async function createDictionaryCommand(targetDir, locales, options) {
-  if(!dictionaryService.exists(targetDir)){
+async function createDictionaryCommand (targetDir, locales, options) {
+  if (!dictionaryService.exists(targetDir)) {
     console.log('Target directory does not exists');
     return;
   }

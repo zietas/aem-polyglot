@@ -5,7 +5,6 @@ const dictionaryService = require('../../src/dictionaryService');
 const tested = require('../../src/commands/sortCommand');
 
 describe('sortCommand', () => {
-
   beforeEach(() => {
     this.consoleSpy = sinon.spy(console, 'log');
     this.readDictStub = sinon.stub(dictionaryService, 'readDict');
@@ -20,12 +19,12 @@ describe('sortCommand', () => {
     this.saveDictStub.restore();
   });
 
-  function resolve(data) {
+  function resolve (data) {
     return () => {
       return new Promise((resolve) => {
         resolve(data);
-      })
-    }
+      });
+    };
   }
 
   it('sort dict and save it', async () => {

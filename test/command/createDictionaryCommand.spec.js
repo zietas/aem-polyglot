@@ -5,12 +5,11 @@ const dictionaryService = require('../../src/dictionaryService');
 const tested = require('../../src/commands/createDictionaryCommand');
 
 describe('createDictionaryCommand', () => {
-
   beforeEach(() => {
     this.consoleSpy = sinon.spy(console, 'log');
-    this.existStub = sinon.stub(dictionaryService, "exists");
-    this.createStub = sinon.stub(dictionaryService, "create");
-    this.saveDictStub = sinon.stub(dictionaryService, "saveDict");
+    this.existStub = sinon.stub(dictionaryService, 'exists');
+    this.createStub = sinon.stub(dictionaryService, 'create');
+    this.saveDictStub = sinon.stub(dictionaryService, 'saveDict');
   });
 
   afterEach(() => {
@@ -25,7 +24,7 @@ describe('createDictionaryCommand', () => {
 
     await tested('./tmp/some/path', ['de_de'], {});
 
-    expect(this.consoleSpy).to.have.been.calledWithExactly("Target directory does not exists");
+    expect(this.consoleSpy).to.have.been.calledWithExactly('Target directory does not exists');
   });
 
   it('should create a single new dict', async () => {
@@ -35,7 +34,7 @@ describe('createDictionaryCommand', () => {
     this.saveDictStub.callsFake(() => {
       return new Promise((resolve) => {
         resolve(true);
-      })
+      });
     });
 
     await tested('./tmp/some/path', ['de_de'], {});
@@ -53,7 +52,7 @@ describe('createDictionaryCommand', () => {
     this.saveDictStub.callsFake(() => {
       return new Promise((resolve) => {
         resolve(true);
-      })
+      });
     });
 
     await tested('./tmp', ['fr_fr', 'es_es', 'ru'], {});
@@ -85,10 +84,10 @@ describe('createDictionaryCommand', () => {
     this.saveDictStub.callsFake(() => {
       return new Promise((resolve) => {
         resolve(true);
-      })
+      });
     });
 
-    await tested('.', ['en_gb'], {force: true});
+    await tested('.', ['en_gb'], { force: true });
 
     expect(this.createStub).to.have.been.calledOnce;
     expect(this.saveDictStub).to.have.been.calledOnce;

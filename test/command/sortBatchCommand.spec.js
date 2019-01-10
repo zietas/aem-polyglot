@@ -10,7 +10,6 @@ const tested = proxyquire('../../src/commands/sortBatchCommand', {
 });
 
 describe('sortBatchCommand', () => {
-
   beforeEach(() => {
     this.consoleSpy = sinon.spy(console, 'log');
     this.listDictStub = sinon.stub(dictionaryService, 'listDict');
@@ -34,4 +33,3 @@ describe('sortBatchCommand', () => {
     expect(this.consoleSpy).to.have.been.calledWithExactly("Starting batch sort on './tmp/some/path'");
   });
 });
-

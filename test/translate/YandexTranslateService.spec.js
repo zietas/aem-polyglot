@@ -10,7 +10,7 @@ const YandexTranslateService = proxyquire('../../src/translate/YandexTranslateSe
   'yandex-translate': function () {
     return {
       translate: yandexTranslateStub
-    }
+    };
   }
 });
 
@@ -25,7 +25,6 @@ describe('YandexTranslateService', () => {
   });
 
   describe('#translate', () => {
-
     const tested = new YandexTranslateService('fakeAPIkey');
 
     beforeEach(() => {
@@ -38,7 +37,7 @@ describe('YandexTranslateService', () => {
 
     it('should fail when service is returns error', async () => {
       yandexTranslateStub.callsFake((text, options, callback) => {
-        callback('there seems to be a problem');
+        callback(new Error('there seems to be a problem'));
       });
 
       const promise = tested.translate('key', 'text', 'en', 'fr');
@@ -49,7 +48,7 @@ describe('YandexTranslateService', () => {
 
     it('should fail when service is returns response code above 400', async () => {
       yandexTranslateStub.callsFake((text, options, callback) => {
-        callback(null, {code: 403, message: 'Unauthorized Access'});
+        callback(null, { code: 403, message: 'Unauthorized Access' });
       });
 
       const promise = tested.translate('key', 'text', 'en', 'fr');
@@ -60,7 +59,7 @@ describe('YandexTranslateService', () => {
 
     it('should return translated dictionary entry', async () => {
       yandexTranslateStub.callsFake((text, options, callback) => {
-        callback(null, {text: ['some translation']});
+        callback(null, { text: ['some translation'] });
       });
 
       const entry = await tested.translate('key', 'text', 'en', 'fr');

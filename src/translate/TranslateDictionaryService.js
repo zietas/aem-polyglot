@@ -2,12 +2,11 @@ const Locale = require('./Locale');
 const _ = require('lodash');
 
 class TranslateDictionaryService {
-
-  constructor(translateService) {
+  constructor (translateService) {
     this.translateService = translateService;
   }
 
-  async translate(sourceDictionary, targetDictionary) {
+  async translate (sourceDictionary, targetDictionary) {
     this.sourceLocale = this.getLocale(sourceDictionary);
     this.targetLocale = this.getLocale(targetDictionary);
     this.validateLocale(this.sourceLocale);
@@ -20,7 +19,7 @@ class TranslateDictionaryService {
 
     return new Promise(async (resolve, reject) => {
       if (size === 0) {
-        reject(`No new entries found between '${this.sourceLocale.getLocaleISOCode()}' and '${this.targetLocale.getLocaleISOCode()}' dictionaries`);
+        reject(new Error(`No new entries found between '${this.sourceLocale.getLocaleISOCode()}' and '${this.targetLocale.getLocaleISOCode()}' dictionaries`));
         return;
       }
 
@@ -38,17 +37,17 @@ class TranslateDictionaryService {
     });
   }
 
-  getLocale(dict) {
+  getLocale (dict) {
     return Locale.fromLocaleIsoCode(dict['jcr:root']['_attributes']['jcr:language']);
   }
 
-  getEntries(dict) {
+  getEntries (dict) {
     return _.pickBy(dict['jcr:root'], (value, key) => {
       return key !== '_attributes';
     });
   }
 
-  validateLocale(locale) {
+  validateLocale (locale) {
     if (locale.getLocaleISOCode() === '') {
       throw new Error('Could not extract locale from input dictionary');
     }

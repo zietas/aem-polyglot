@@ -2,9 +2,9 @@ const _ = require('lodash');
 const dictionaryService = require('../dictionaryService');
 const translateCommand = require('./translateCommand');
 
-async function translateBatchCommand(directory, sourceDict, options) {
+async function translateBatchCommand (directory, sourceDict, options) {
   const paths = _.filter(dictionaryService.listDict(directory), (item) => {
-    return item !== `${sourceDict}.xml`
+    return item !== `${sourceDict}.xml`;
   });
 
   try {

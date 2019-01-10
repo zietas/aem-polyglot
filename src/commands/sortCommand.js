@@ -1,6 +1,6 @@
-const dictionaryService = require('../dictionaryService')
+const dictionaryService = require('../dictionaryService');
 
-async function sortCommand(source) {
+async function sortCommand (source) {
   console.log(`Sorting '${source}'`);
   const sourceDict = await dictionaryService.readDict(source);
   const sortedDict = dictionaryService.sort(sourceDict);

@@ -37,28 +37,28 @@ const JSON_TO_XML_OPTIONS = {
   ignoreDeclaration: true
 };
 
-function create(locale) {
+function create (locale) {
   const dict = _.cloneDeep(TEMPLATE);
   dict['jcr:root']['_attributes']['jcr:language'] = locale.getLocaleISOCode();
   return dict;
 }
 
-function sort(dict) {
-  return alphabetize(dict)
+function sort (dict) {
+  return alphabetize(dict);
 }
 
-function listDict(path) {
+function listDict (path) {
   const paths = fs.readdirSync(path);
   return _.filter(paths, (item) => {
     return !item.startsWith('.') && item.endsWith('.xml');
   });
 }
 
-function exists(path) {
+function exists (path) {
   return fs.existsSync(path);
 }
 
-async function readDict(source) {
+async function readDict (source) {
   return new Promise((resolve, reject) => {
     fs.readFile(source, 'utf-8', (err, data) => {
       if (err) {
@@ -75,21 +75,21 @@ async function readDict(source) {
   });
 }
 
-async function saveDict(jsonDict, target) {
-  function isValidDictionary(dict) {
+async function saveDict (jsonDict, target) {
+  function isValidDictionary (dict) {
     return _.isObject(dict) && dict['_declaration'] && dict['jcr:root'];
   }
 
   return new Promise((resolve, reject) => {
     try {
       if (!isValidDictionary(jsonDict)) {
-        reject('Given dictionary is not an object');
+        reject(new Error('Given dictionary is not an object'));
         return;
       }
       let xml = converter.js2xml(jsonDict, JSON_TO_XML_OPTIONS);
       xml = XML_DECLARATION + xml;
-      xml = _.replace(xml, /\n[\ ]*\/\>/mg, '/>');
-      xml = _.replace(xml, /\n[\ ]*\>/mg, '>');
+      xml = _.replace(xml, /\n[ ]*\/>/mg, '/>');
+      xml = _.replace(xml, /\n[ ]*>/mg, '>');
       fs.writeFile(target, xml, 'utf-8', (err) => {
         if (err) {
           reject(err);
