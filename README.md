@@ -18,15 +18,25 @@ In order to translate entries we are using Yandex Translation API. It's free to 
 
 On the other hand Google Translate API enforces user to provide credit card data on the spot in orde to get the key.   
 
+## Features
+
+1. Create new empty dictionaries with `create` command
+2. Sort dictionaries by node keys - will be very usefull in order to maintain conistent dictionaries
+3. Sorting in batch mode - whole directory 
+4. Translate single dictionary to other language - currently only additon of missing entires is supported
+5. Translate in batch mode - whole directory 
+
 ## Usage
 
-1. `npm install -g aem-polyglot` - install the package
-
-
-## Usage
-
-TODO - mention something on how to prove Yandex API key
+1. Get your own Yandex [Translate API key](http://tech.yandex.com/translate)
+2. `npm install -g aem-polyglot` - install the package
+3. `aem-polyglot --help` - for further options 
 
 ## Development
 
+It's preatty simple and standard. 
 
+1. `npm install` - to install 
+2. `npm run lint` - to run eslint
+3. `npm test` - to run unit tests
+4. `npm run lcov-report` - coverage detailed report
