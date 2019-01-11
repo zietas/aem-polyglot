@@ -3,7 +3,7 @@ const _ = require('lodash');
 const converter = require('xml-js');
 const alphabetize = require('alphabetize-object-keys');
 
-const TEMPLATE = {
+const DICTIONARY_TEMPLATE = {
   _declaration: {
     _attributes: {
       encoding: 'UTF-8',
@@ -38,7 +38,7 @@ const JSON_TO_XML_OPTIONS = {
 };
 
 function create (locale) {
-  const dict = _.cloneDeep(TEMPLATE);
+  const dict = _.cloneDeep(DICTIONARY_TEMPLATE);
   dict['jcr:root']['_attributes']['jcr:language'] = locale.getLocaleISOCode();
   return dict;
 }

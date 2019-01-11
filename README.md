@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zietas/aem-polyglot.svg?branch=master)](https://travis-ci.org/zietas/aem-polyglot) 
 [![Coverage Status](https://coveralls.io/repos/github/zietas/aem-polyglot/badge.svg?branch=master)](https://coveralls.io/github/zietas/aem-polyglot?branch=master)
+[![NPM Version](http://img.shields.io/npm/v/aem-polyglot.svg?style=flat)](https://www.npmjs.org/package/aem-polyglot)
 [![dependencies Status](https://david-dm.org/zietas/aem-polyglot/status.svg)](https://david-dm.org/zietas/aem-polyglot)
 [![devDependencies Status](https://david-dm.org/zietas/aem-polyglot/dev-status.svg)](https://david-dm.org/zietas/aem-polyglot?type=dev)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -21,10 +22,11 @@ On the other hand Google Translate API enforces user to provide credit card data
 ## Features
 
 1. Create new empty dictionaries with `create` command
-2. Sort dictionaries by node keys - will be very usefull in order to maintain conistent dictionaries
-3. Sorting in batch mode - whole directory 
-4. Translate single dictionary to other language - currently only additon of missing entires is supported
-5. Translate in batch mode - whole directory 
+2. Add new dictionaries entries
+3. Sort dictionaries by node keys - will be very usefull in order to maintain conistent dictionaries
+4. Sorting in batch mode - whole directory 
+5. Translate single dictionary to other language - currently only additon of missing entires is supported
+6. Translate in batch mode - whole directory 
 
 ## Usage
 

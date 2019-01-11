@@ -4,6 +4,7 @@ const program = require('commander');
 const pkg = require('../package.json');
 
 const createDictionaryCommand = require('./commands/createDictionaryCommand');
+const addDictionaryEntryCommand = require('./commands/addDictionaryEntryCommand');
 const sortCommand = require('./commands/sortCommand');
 const sortBatchCommand = require('./commands/sortBatchCommand');
 const translateCommand = require('./commands/translateCommand');
@@ -17,6 +18,13 @@ program
   .description('creates a brand new empty dictionary')
   .option('-f, --force', 'Force create new dictionary. Action will override any existing dictionaries.')
   .action(createDictionaryCommand);
+
+program
+  .command('add-entry <target> <key> <value>')
+  .description('creates a brand new dictionary entry')
+  .option('-f, --force', 'Force create new dictionary entry, overwriting an existing one.')
+  .option('--disableSorting', 'Disable dictionary sorting')
+  .action(addDictionaryEntryCommand);
 
 program
   .command('sort <source>')
