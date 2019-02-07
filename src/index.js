@@ -41,6 +41,7 @@ program
   .description('based on master dictionary <source> it searches for missing keys in <target> dictionary and translates them')
   .option('--disableSorting', 'Disable dictionary sorting')
   .option('--yandexApiKey <key>', 'Yandex API Key')
+  .option('--keys <key>', 'A comma separated list of dictionaries keys. I.e. --keys=key1,key2,key3')
   .action(translateCommand);
 
 program
@@ -48,6 +49,7 @@ program
   .description('batch translates all dictionaries in a <directory> based on defined <sourceDict>')
   .option('--disableSorting', 'Disable dictionary sorting')
   .option('--yandexApiKey <key>', 'Yandex API Key')
+  .option('--keys <key>', 'A comma separated list of dictionaries keys. I.e. --keys=key1,key2,key3')
   .action(translateBatchCommand);
 
 program.parse(process.argv);

@@ -13,7 +13,9 @@ async function translateCommand (source, target, options) {
     const sourceDict = await dictionaryService.readDict(source);
     const targetDict = await dictionaryService.readDict(target);
     const translationService = new YandexTranslateService(apiKey);
-    const translateDictionaryService = new TranslateDictionaryService(translationService);
+    const translateDictionaryService = new TranslateDictionaryService(translationService, {
+      keys: options.keys
+    });
 
     let translatedDict = await translateDictionaryService.translate(sourceDict, targetDict);
     if (!options.disableSorting) {

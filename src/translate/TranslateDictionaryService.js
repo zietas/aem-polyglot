@@ -2,8 +2,9 @@ const Locale = require('./Locale');
 const _ = require('lodash');
 
 class TranslateDictionaryService {
-  constructor (translateService) {
+  constructor (translateService, options) {
     this.translateService = translateService;
+    this.options = options || {};
   }
 
   async translate (sourceDictionary, targetDictionary) {
@@ -14,8 +15,15 @@ class TranslateDictionaryService {
 
     const sourceEntries = this.getEntries(sourceDictionary);
     const targetEntries = this.getEntries(targetDictionary);
-    const missingEntries = _.difference(Object.keys(sourceEntries), Object.keys(targetEntries));
-    const size = _.size(missingEntries);
+    let keysToTranslate = [];
+
+    if (this.options.keys) {
+      const keys = _.split(_.trim(this.options.keys), ',');
+      keysToTranslate = _.intersection(Object.keys(sourceEntries), keys);
+    } else {
+      keysToTranslate = _.difference(Object.keys(sourceEntries), Object.keys(targetEntries));
+    }
+    const size = _.size(keysToTranslate);
 
     return new Promise(async (resolve, reject) => {
       if (size === 0) {
@@ -23,11 +31,11 @@ class TranslateDictionaryService {
         return;
       }
 
-      for (const key of missingEntries) {
+      const sourceLang = this.sourceLocale.getLanguageCode();
+      const targetLang = this.targetLocale.getLanguageCode();
+      for (const key of keysToTranslate) {
         try {
           const value = sourceEntries[key]['_attributes']['sling:message'];
-          const sourceLang = this.sourceLocale.getLanguageCode();
-          const targetLang = this.targetLocale.getLanguageCode();
           targetDictionary['jcr:root'][key] = await this.translateService.translate(key, value, sourceLang, targetLang);
         } catch (e) {
           reject(e);

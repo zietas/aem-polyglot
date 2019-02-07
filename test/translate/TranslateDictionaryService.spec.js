@@ -76,6 +76,45 @@ describe('TranslateDictionaryService', () => {
       expect(resultKeys).to.be.equalTo(expectedKeys);
     });
 
+    it('should translate only defined key', async () => {
+      const targetDict = createDict('de_de');
+      const expectedKeys = ['_attributes', 'key1'];
+
+      const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key1' });
+
+      const translatedDict = await tested.translate(sourceDict, targetDict);
+
+      const resultKeys = Object.keys(translatedDict['jcr:root']);
+      expect(resultKeys).to.be.ofSize(2);
+      expect(resultKeys).to.be.equalTo(expectedKeys);
+    });
+
+    it('should translate only defined keys', async () => {
+      const targetDict = createDict('de_de');
+      const expectedKeys = ['_attributes', 'key1', 'key2'];
+
+      const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key1,key2' });
+
+      const translatedDict = await tested.translate(sourceDict, targetDict);
+
+      const resultKeys = Object.keys(translatedDict['jcr:root']);
+      expect(resultKeys).to.be.ofSize(3);
+      expect(resultKeys).to.be.equalTo(expectedKeys);
+    });
+
+    it('should  not translate keys that are not defined in source dict', async () => {
+      const targetDict = createDict('de_de');
+      const expectedKeys = ['_attributes', 'key3'];
+
+      const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key3,key22,key45,nonExistingKey' });
+
+      const translatedDict = await tested.translate(sourceDict, targetDict);
+
+      const resultKeys = Object.keys(translatedDict['jcr:root']);
+      expect(resultKeys).to.be.ofSize(2);
+      expect(resultKeys).to.be.equalTo(expectedKeys);
+    });
+
     it('should translate part of the dictionary as target has some entries', async () => {
       const targetDict = createDict('de_de');
       addEntry(targetDict, createEntry('key1', 'my own translated value'));
