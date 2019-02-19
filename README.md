@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/zietas/aem-polyglot.svg?branch=master)](https://travis-ci.org/zietas/aem-polyglot) 
 [![Coverage Status](https://coveralls.io/repos/github/zietas/aem-polyglot/badge.svg?branch=master)](https://coveralls.io/github/zietas/aem-polyglot?branch=master)
-[![NPM Version](http://img.shields.io/npm/v/aem-polyglot.svg?style=flat)](https://www.npmjs.org/package/aem-polyglot)
 [![dependencies Status](https://david-dm.org/zietas/aem-polyglot/status.svg)](https://david-dm.org/zietas/aem-polyglot)
 [![devDependencies Status](https://david-dm.org/zietas/aem-polyglot/dev-status.svg)](https://david-dm.org/zietas/aem-polyglot?type=dev)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -25,18 +24,20 @@ On the other hand Google Translate API enforces user to provide credit card data
 2. Add new dictionaries entries
 3. Sort dictionaries by node keys - will be very usefull in order to maintain conistent dictionaries
 4. Sorting in batch mode - whole directory 
-5. Translate single dictionary to other language - currently only additon of missing entires is supported
+5. Translate single dictionary to other language - including a set of given keys
 6. Translate in batch mode - whole directory 
 
 ## Usage
 
 1. Get your own Yandex [Translate API key](http://tech.yandex.com/translate)
 2. `npm install -g aem-polyglot` - install the package
-3. `aem-polyglot --help` - for further options 
+3. `aem-polyglot --help` - to get the list of commands
+4. `aem-polyglot <command> --help` - to get details of given `<command>`
+
 
 ## Development
 
-It's preatty simple and standard. 
+It's pretty simple and standard. 
 
 1. `npm install` - to install 
 2. `npm run lint` - to run eslint
