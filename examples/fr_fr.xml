@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root
-    jcr:language="en_gb"
+    jcr:language="fr_fr"
     jcr:mixinTypes="[mix:language]"
     jcr:primaryType="sling:Folder"
     xmlns:jcr="http://www.jcp.org/jcr/1.0"
     xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
     xmlns:sling="http://sling.apache.org/jcr/sling/1.0">
+    <error.500.label
+        jcr:primaryType="sling:MessageEntry"
+        sling:key="error.500.label"
+        sling:message="Une erreur interne du serveur s'est produite. S'il vous plaît essayer à nouveau plus tard."/>
+    <goodbye.label
+        jcr:primaryType="sling:MessageEntry"
+        sling:key="goodbye.label"
+        sling:message="Au revoir!"/>
+    <welcome.label
+        jcr:primaryType="sling:MessageEntry"
+        sling:key="welcome.label"
+        sling:message="Bienvenue!"/>
 </jcr:root>

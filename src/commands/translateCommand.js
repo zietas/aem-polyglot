@@ -1,6 +1,7 @@
 const dictionaryService = require('../dictionaryService');
 const YandexTranslateService = require('../translate/YandexTranslateService');
 const TranslateDictionaryService = require('../translate/TranslateDictionaryService');
+const translationLog = require('../../src/translate/TranslationLog');
 
 async function translateCommand (source, target, options) {
   const apiKey = process.env.YANDEX_API_KEY || options.yandexApiKey;
@@ -20,6 +21,9 @@ async function translateCommand (source, target, options) {
     let translatedDict = await translateDictionaryService.translate(sourceDict, targetDict);
     if (!options.disableSorting) {
       translatedDict = dictionaryService.sort(translatedDict);
+    }
+    if (!options.disableLogOutput) {
+      translationLog.print();
     }
     await dictionaryService.saveDict(translatedDict, target);
   } catch (e) {

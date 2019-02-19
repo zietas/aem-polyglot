@@ -1,8 +1,8 @@
-const TranslationLog = require('./TranslationLog');
+const translationLog = require('./TranslationLog');
 
 class TranslateService {
   constructor () {
-    this.log = new TranslationLog();
+    this.log = translationLog;
   }
 
   async translate (key, text, from, to) {

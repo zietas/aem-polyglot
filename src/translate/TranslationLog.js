@@ -20,6 +20,7 @@ class TranslationLog {
     this.log = {};
   }
 
+  // maybe one day we should create translation reporter to have an easy ability to switch output format
   print () {
     for (const key in this.log) {
       console.log(`- ${key}`);
@@ -30,4 +31,4 @@ class TranslationLog {
   }
 }
 
-module.exports = TranslationLog;
+module.exports = new TranslationLog();

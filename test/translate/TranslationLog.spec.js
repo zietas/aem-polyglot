@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const expect = chai.expect;
 
-const TranslationLog = require('../../src/translate/TranslationLog');
+const translationLog = require('../../src/translate/TranslationLog');
 
 chai.use(sinonChai);
 
@@ -13,7 +13,7 @@ describe('TranslationLog', () => {
   let consoleSpy;
 
   beforeEach(() => {
-    tested = new TranslationLog();
+    tested = translationLog;
     consoleSpy = sinon.spy(console, 'log');
   });
 
