@@ -14,8 +14,8 @@ async function translateBatchCommand (directory, sourceDict, options) {
   try {
     for (const path of paths) {
       await translateCommand(`${directory}/${sourceDict}.xml`, `${directory}/${path}`, options);
-      translationLog.print();
     }
+    translationLog.print();
   } catch (e) {
     console.log(e.message);
   }
