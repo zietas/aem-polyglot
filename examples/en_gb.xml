@@ -10,12 +10,4 @@
         jcr:primaryType="sling:MessageEntry"
         sling:key="error.500.label"
         sling:message="An internal server error occurred. Please try again later."/>
-    <goodbye.label
-        jcr:primaryType="sling:MessageEntry"
-        sling:key="goodbye.label"
-        sling:message="Goodbye!"/>
-    <welcome.label
-        jcr:primaryType="sling:MessageEntry"
-        sling:key="welcome.label"
-        sling:message="Welcome!"/>
 </jcr:root>
