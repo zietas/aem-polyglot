@@ -1,6 +1,6 @@
 {
   "name": "aem-polyglot",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "translate i18n dictionairies with ease using Google Translate. Tool designed mainly for developers. ",
   "repository": "https://github.com/zietas/aem-polyglot",
   "main": "src/index.js",
@@ -28,27 +28,27 @@
   "dependencies": {
     "alphabetize-object-keys": "^2.0.1",
     "commander": "^2.19.0",
-    "dotenv": "^6.2.0",
+    "dotenv": "^8.0.0",
     "google-translate": "^2.2.0",
     "lodash": "^4.17.11",
-    "xml-js": "^1.6.8",
+    "xml-js": "^1.6.11",
     "yandex-translate": "^2.1.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-arrays": "^2.0.0",
     "chai-as-promised": "^7.1.1",
-    "coveralls": "^3.0.2",
-    "eslint": "^5.12.0",
+    "coveralls": "^3.0.3",
+    "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^6.0.0",
+    "mocha": "^6.1.4",
     "nyc": "^13.3.0",
     "proxyquire": "^2.1.0",
-    "sinon": "^7.2.2",
+    "sinon": "^7.3.2",
     "sinon-chai": "^3.3.0"
   },
   "engines": {
