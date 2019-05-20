@@ -2,6 +2,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const converter = require('xml-js');
 const alphabetize = require('alphabetize-object-keys');
+const dictionaryUtils = require('./dictionaryUtils');
 
 const DICTIONARY_TEMPLATE = {
   _declaration: {
@@ -30,11 +31,13 @@ const XML_TO_JSON_OPTIONS = {
   compact: true
 };
 
+
 const JSON_TO_XML_OPTIONS = {
   compact: true,
   spaces: 4,
   indentAttributes: true,
-  ignoreDeclaration: true
+  ignoreDeclaration: true,
+  attributeValueFn: dictionaryUtils.encodeHTML
 };
 
 function create (locale) {
