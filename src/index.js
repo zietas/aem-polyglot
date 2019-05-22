@@ -9,6 +9,8 @@ const sortCommand = require('./commands/sortCommand');
 const sortBatchCommand = require('./commands/sortBatchCommand');
 const translateCommand = require('./commands/translateCommand');
 const translateBatchCommand = require('./commands/translateBatchCommand');
+const exportCommand = require('./commands/exportCommand');
+
 program
   .version(pkg.version, '-v, --version')
   .description('This tool is designed mainly for developers who are tasked to translate automatically AEM dictionaries into other languages.');
@@ -51,5 +53,12 @@ program
   .option('--yandexApiKey <key>', 'Yandex API Key')
   .option('--keys <key>', 'A comma separated list of dictionaries keys. I.e. --keys=key1,key2,key3')
   .action(translateBatchCommand);
+
+program
+  .command('export <sourceDictionaries>')
+  .description('Exports defined set of dictionaries to CSV format')
+  .option('-t, --targetFile [file]', 'Defines the name of the file where the data is exported', './export.csv')
+  .option('-s, --separator [separator]', 'Defines separator used by exporter. Defaults to comma.', ';')
+  .action(exportCommand);
 
 program.parse(process.argv);

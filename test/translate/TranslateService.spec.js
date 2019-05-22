@@ -12,7 +12,7 @@ describe('TranslateService', () => {
     tested = new TranslateService();
   });
 
-  describe('#execute', () => {
+  describe('#translate', () => {
     it('should throw not implemented error', () => {
       const promise = tested.translate();
 
