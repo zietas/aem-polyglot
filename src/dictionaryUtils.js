@@ -11,5 +11,14 @@ module.exports = {
         .replace(/'/g, '&apos;');
     }
     return result;
+  },
+  createEntry: function (key, value) {
+    return {
+      '_attributes': {
+        'jcr:priaryType': 'sling:MessageEntry',
+        'sling:key': key,
+        'sling:message': value
+      }
+    };
   }
 };

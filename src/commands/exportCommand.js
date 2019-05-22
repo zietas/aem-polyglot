@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fileUtils = require('../fileUtils');
 const dictionaryService = require('../dictionaryService');
 
 const ExportService = require('../migrate/CSVExportService');
@@ -20,12 +21,10 @@ async function exportCommand(sourceDictionaries, options) {
 
   const csv = exportService.export(toExport);
 
-  fs.writeFile(options.targetFile, csv, (err) => {
-    if(err) {
-      return console.log(err);
-    }
-    console.log("Export complete!");
-  });
+  await fileUtils.writeFile(options.targetFile, csv)
+    .catch((reason) => {
+      console.log(`Failed to open ${options.targetFile}`, reason);
+    });
 }
 
 module.exports = exportCommand;

@@ -48,4 +48,22 @@ describe('dictionaryUtils', () => {
       expect(result).to.be.equal('&lt;%= rating %&gt; out of 5 stars (&lt;%= votes %&gt;)');
     });
   });
+
+  describe('#createEntry', () => {
+    it('should create new dictionary entry', () => {
+      const key = "some.key";
+      const value = "Lorem ipsum dolor sith ameth";
+      const expected = {
+        '_attributes': {
+          'jcr:priaryType': 'sling:MessageEntry',
+          'sling:key': key,
+          'sling:message': value
+        }
+      };
+
+      const result = tested.createEntry(key,value);
+
+      expect(result).to.be.deep.equal(expected);
+    });
+  });
 });

@@ -1,5 +1,5 @@
 class ImportService {
-  import() {
+  import(csv, dictionary) {
     throw new Error("Not implemented");
   }
 }
