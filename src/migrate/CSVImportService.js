@@ -3,19 +3,18 @@ const dictionaryUtils = require('../dictionaryUtils');
 
 // TODO add tests for this class
 class CSVImportService extends ImportService {
-
-  constructor(separator, updateExisting) {
+  constructor (separator, updateExisting) {
     super();
     this.separator = separator || ';';
     this.updateExisting = updateExisting || false;
   }
 
-  import(csv, dictionary) {
+  import (csv, dictionary) {
     const json = this._toJS(csv);
     return this._fillDictionary(json, dictionary);
   }
 
-  _fillDictionary(json, dictionary) {
+  _fillDictionary (json, dictionary) {
     const lang = dictionary['jcr:root']['_attributes']['jcr:language'];
 
     Object.keys(json).forEach((key) => {
@@ -36,7 +35,7 @@ class CSVImportService extends ImportService {
     return dictionary;
   }
 
-  _toJS(csv) {
+  _toJS (csv) {
     const entries = {};
     const langs = [];
 

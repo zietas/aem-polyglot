@@ -1,6 +1,6 @@
 class ExportService {
-  export(data) {
-    throw new Error("Not implemented")
+  export (data) {
+    throw new Error('Not implemented');
   };
 }
 

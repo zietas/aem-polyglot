@@ -1,5 +1,6 @@
 const YandexTranslate = require('yandex-translate');
 const TranslateService = require('./TranslateService');
+const dictionaryUtils = require('../dictionaryUtils');
 
 class YandexTranslateService extends TranslateService {
   constructor (apiKey) {
@@ -17,13 +18,7 @@ class YandexTranslateService extends TranslateService {
           reject(res.message);
         } else {
           this.log.addEntry(key, to, res.text[0]);
-          resolve({
-            '_attributes': {
-              'jcr:primaryType': 'sling:MessageEntry',
-              'sling:key': key,
-              'sling:message': res.text[0]
-            }
-          });
+          resolve(dictionaryUtils.createEntry(key, res.text[0]));
         }
       });
     });

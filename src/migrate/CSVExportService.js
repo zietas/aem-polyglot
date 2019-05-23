@@ -1,24 +1,23 @@
 const ExportService = require('./ExportService');
-const fs = require('fs');
 
-function compare(a, b) {
+function compare (a, b) {
   return a.toLowerCase().localeCompare(b.toLowerCase());
 }
 
-function getLang(dict) {
+function getLang (dict) {
   const lang = dict['jcr:root']['_attributes']['jcr:language'];
   if (!lang) {
-    throw new Error("Failed to get language from dictionary");
+    throw new Error('Failed to get language from dictionary');
   }
   return lang;
 }
 
-function getEntryKeys(dict) {
+function getEntryKeys (dict) {
   return Object.keys(dict['jcr:root'])
     .filter((item) => item !== '_attributes');
 }
 
-function toCsv(data, langs, separator) {
+function toCsv (data, langs, separator) {
   let csv = 'key' + separator + langs.join(separator) + '\r\n';
   const langCount = langs.length;
   const keys = Object.keys(data).sort(compare);
@@ -41,13 +40,12 @@ function toCsv(data, langs, separator) {
 
 // TODO add tests for this class
 class CSVExportService extends ExportService {
-
-  constructor(separator) {
+  constructor (separator) {
     super();
     this.separator = separator || ';';
   }
 
-  export(data) {
+  export (data) {
     const toExport = {};
     const langs = [];
     data.forEach((dict) => {

@@ -31,7 +31,6 @@ const XML_TO_JSON_OPTIONS = {
   compact: true
 };
 
-
 const JSON_TO_XML_OPTIONS = {
   compact: true,
   spaces: 4,

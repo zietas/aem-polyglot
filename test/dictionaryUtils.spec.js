@@ -3,19 +3,18 @@ const expect = chai.expect;
 
 const tested = require('../src/dictionaryUtils');
 
-
 describe('dictionaryUtils', () => {
   describe('#encodeHTML', () => {
     it('should handle undefined input', () => {
       const result = tested.encodeHTML();
 
-      expect(result).to.be.equal('')
+      expect(result).to.be.equal('');
     });
 
     it('should handle null input', () => {
       const result = tested.encodeHTML(null);
 
-      expect(result).to.be.equal('')
+      expect(result).to.be.equal('');
     });
 
     it('should handle empty string input', () => {
@@ -51,8 +50,8 @@ describe('dictionaryUtils', () => {
 
   describe('#createEntry', () => {
     it('should create new dictionary entry', () => {
-      const key = "some.key";
-      const value = "Lorem ipsum dolor sith ameth";
+      const key = 'some.key';
+      const value = 'Lorem ipsum dolor sith ameth';
       const expected = {
         '_attributes': {
           'jcr:priaryType': 'sling:MessageEntry',
@@ -61,7 +60,7 @@ describe('dictionaryUtils', () => {
         }
       };
 
-      const result = tested.createEntry(key,value);
+      const result = tested.createEntry(key, value);
 
       expect(result).to.be.deep.equal(expected);
     });

@@ -10,7 +10,7 @@ async function translateCommand (source, target, options) {
     return;
   }
   try {
-    console.log(`Translating '${target}'`);
+    console.log(`Translating '${source}' to ${target}`);
     const sourceDict = await dictionaryService.readDict(source);
     const targetDict = await dictionaryService.readDict(target);
     const translationService = new YandexTranslateService(apiKey);
@@ -27,7 +27,7 @@ async function translateCommand (source, target, options) {
     }
     await dictionaryService.saveDict(translatedDict, target);
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
   }
 }
 

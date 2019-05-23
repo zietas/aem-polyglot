@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-async function readFile(path, options) {
+async function readFile (path, options) {
   return new Promise((resolve, reject) => {
     fs.readFile(path, options, (err, data) => {
       if (err) {
@@ -12,7 +12,7 @@ async function readFile(path, options) {
   });
 };
 
-async function writeFile(path, content, options) {
+async function writeFile (path, content, options) {
   return new Promise((resolve, reject) => {
     fs.writeFile(path, content, options, (err) => {
       if (err) {

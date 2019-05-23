@@ -5,7 +5,7 @@ const dictionaryService = require('../dictionaryService');
 const ExportService = require('../migrate/CSVExportService');
 
 // TODO add tests for this command
-async function exportCommand(sourceDictionaries, options) {
+async function exportCommand (sourceDictionaries, options) {
   console.log(`Exporting '${sourceDictionaries}' to ${options.targetFile}`);
 
   const dicts = sourceDictionaries.split(',')

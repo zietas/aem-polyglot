@@ -20,7 +20,7 @@ class TranslationLog {
     this.log = {};
   }
 
-  // maybe one day we should create translation reporter to have an easy ability to switch output format
+  // TODO maybe one day we should create translation reporter to have an easy ability to switch output format
   print () {
     for (const key in this.log) {
       console.log(`- ${key}`);
