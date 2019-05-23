@@ -11,9 +11,7 @@ chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
 describe('fileUtils', () => {
-
   describe('#readFile', () => {
-
     beforeEach(() => {
       this.readFileStub = sinon.stub(fs, 'readFile');
     });
@@ -23,9 +21,9 @@ describe('fileUtils', () => {
     });
 
     it('should resolve', async () => {
-      this.readFileStub.callsFake(((path, data, cb) => {
+      this.readFileStub.callsFake((path, data, cb) => {
         return cb(null, 'some data');
-      }));
+      });
 
       const result = await tested.readFile('./path', {});
 
@@ -34,9 +32,9 @@ describe('fileUtils', () => {
     });
 
     it('should reject', async () => {
-      this.readFileStub.callsFake(((path, data, cb) => {
+      this.readFileStub.callsFake((path, data, cb) => {
         return cb(new Error('fail'), null);
-      }));
+      });
 
       const promise = tested.readFile('./path', {});
 
@@ -46,7 +44,6 @@ describe('fileUtils', () => {
   });
 
   describe('#writeFile', () => {
-
     beforeEach(() => {
       if (this.writeFileStub) {
         console.log(this.writeFileStub);
@@ -70,9 +67,9 @@ describe('fileUtils', () => {
     });
 
     it('should reject', async () => {
-      this.writeFileStub.callsFake(((path, content, options, cb) => {
+      this.writeFileStub.callsFake((path, content, options, cb) => {
         return cb(new Error('fail'));
-      }));
+      });
 
       const promise = tested.writeFile('./path', 'content');
 

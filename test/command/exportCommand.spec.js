@@ -15,7 +15,7 @@ const tested = proxyquire('../../src/commands/exportCommand', {
   '../../src/migrate/CSVExportService': function () {
     return {
       export: csvExportStub
-    }
+    };
   }
 });
 
@@ -30,7 +30,7 @@ describe('exportCommand', () => {
     this.lstatSyncStub.callsFake((path) => {
       return {
         isFile: () => true
-      }
+      };
     });
     this.writeFileStub.callsFake(async () => true);
   });
@@ -47,7 +47,7 @@ describe('exportCommand', () => {
   it('should output error when non existing path to file provided', async () => {
     const paths = './fake_en_gb.xml';
 
-    await tested(paths, {targetFile: './export.csv'});
+    await tested(paths, { targetFile: './export.csv' });
 
     expect(this.readDictStub).to.not.have.been.called;
     expect(this.writeFileStub).to.not.have.been.called;
@@ -58,7 +58,7 @@ describe('exportCommand', () => {
   it('should output error when non existing paths to file provided', async () => {
     const paths = './fake_en_gb.xml,./fake_de_de.xml,./fake_fr_fr.xml';
 
-    await tested(paths, {targetFile: './otherFile.csv'});
+    await tested(paths, { targetFile: './otherFile.csv' });
 
     expect(this.readDictStub).to.not.have.been.called;
     expect(this.writeFileStub).to.not.have.been.called;
@@ -69,7 +69,7 @@ describe('exportCommand', () => {
   it('should export single dict to csv', async () => {
     const paths = './en_gb.xml';
 
-    await tested(paths, {targetFile: './export.csv'});
+    await tested(paths, { targetFile: './export.csv' });
 
     expect(csvExportStub).to.have.been.calledOnce;
     expect(this.readDictStub).to.have.been.calledOnce;
@@ -83,7 +83,7 @@ describe('exportCommand', () => {
       throw err;
     });
 
-    await tested(paths, {targetFile: './export.csv'});
+    await tested(paths, { targetFile: './export.csv' });
 
     expect(csvExportStub).to.have.been.calledOnce;
     expect(this.readDictStub).to.have.been.calledOnce;
