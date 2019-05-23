@@ -1,7 +1,9 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const expect = chai.expect;
+
 const dictionaryService = require('../../src/dictionaryService');
+
 const tested = require('../../src/commands/sortCommand');
 
 describe('sortCommand', () => {

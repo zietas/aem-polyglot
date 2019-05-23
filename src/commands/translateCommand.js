@@ -27,7 +27,7 @@ async function translateCommand (source, target, options) {
     }
     await dictionaryService.saveDict(translatedDict, target);
   } catch (e) {
-    console.log(e.message || e);
+    console.log(e);
   }
 }
 

@@ -81,12 +81,13 @@ describe('translateCommand', () => {
   });
 
   it('should handle exceptions in case something goes south', async () => {
-    dictionaryTranslateStub.throws(new Error('what a terrible failure!'));
+    const err = new Error('what a terrible failure!');
+    dictionaryTranslateStub.throws(err);
 
     await tested('./source.xml', './target.xml', { yandexApiKey: 'fakeKey' });
 
     expect(dictionaryTranslateStub).to.have.been.calledOnce;
     expect(this.saveDictStub).to.not.have.been.called;
-    expect(this.consoleSpy).to.have.been.calledWithExactly('what a terrible failure!');
+    expect(this.consoleSpy).to.have.been.calledWithExactly(err);
   });
 });

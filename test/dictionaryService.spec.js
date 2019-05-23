@@ -34,7 +34,7 @@ describe('dictionaryService', () => {
 
   describe('#sort', () => {
     it('should sort properties of a single level object', () => {
-      const input = { z: 'some value', a: 'oother', c: 1 };
+      const input = {z: 'some value', a: 'oother', c: 1};
       const expectedOutcome = Object.keys(input).sort();
 
       const output = tested.sort(input);
@@ -103,7 +103,15 @@ describe('dictionaryService', () => {
   });
 
   describe('#saveDict()', () => {
-    const fsWriteFile = sinon.stub(fs, 'writeFile');
+    let fsWriteFile;
+
+    before(() => {
+      fsWriteFile = sinon.stub(fs, 'writeFile');
+    });
+
+    after(() => {
+      fsWriteFile.restore();
+    });
 
     it('should throw error when dictionary JS is invalid', () => {
       const jsonDict = 'not a dictionary';
@@ -114,7 +122,7 @@ describe('dictionaryService', () => {
     });
 
     it('should throw error when dictionary JS has no declaration node', () => {
-      const jsonDict = { elements: [] };
+      const jsonDict = {elements: []};
 
       const promise = tested.saveDict(jsonDict);
 
@@ -122,7 +130,7 @@ describe('dictionaryService', () => {
     });
 
     it('should throw error when fails to save', () => {
-      const jsonDict = { 'jcr:root': [], '_declaration': [] };
+      const jsonDict = {'jcr:root': [], '_declaration': []};
       const target = './tmpfile';
       fsWriteFile.callsFake((target, xml, encoding, callback) => {
         callback(new Error('Failed to open file'));
@@ -134,7 +142,7 @@ describe('dictionaryService', () => {
     });
 
     it('should throw error when exception during processing', () => {
-      const jsonDict = { 'jcr:root': [], '_declaration': [] };
+      const jsonDict = {'jcr:root': [], '_declaration': []};
       const target = './tmpfile';
       fsWriteFile.callsFake(() => {
         throw new Error('Failed to open file');
@@ -146,7 +154,7 @@ describe('dictionaryService', () => {
     });
 
     it('should save dict', () => {
-      const jsonDict = { 'jcr:root': [], '_declaration': [] };
+      const jsonDict = {'jcr:root': [], '_declaration': []};
       const target = './tmpfile';
       fsWriteFile.callsFake((target, xml, encoding, callback) => {
         callback();
