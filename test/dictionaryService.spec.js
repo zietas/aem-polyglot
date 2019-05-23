@@ -103,7 +103,15 @@ describe('dictionaryService', () => {
   });
 
   describe('#saveDict()', () => {
-    const fsWriteFile = sinon.stub(fs, 'writeFile');
+    let fsWriteFile;
+
+    before(() => {
+      fsWriteFile = sinon.stub(fs, 'writeFile');
+    });
+
+    after(() => {
+      fsWriteFile.restore();
+    });
 
     it('should throw error when dictionary JS is invalid', () => {
       const jsonDict = 'not a dictionary';

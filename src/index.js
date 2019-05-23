@@ -9,6 +9,9 @@ const sortCommand = require('./commands/sortCommand');
 const sortBatchCommand = require('./commands/sortBatchCommand');
 const translateCommand = require('./commands/translateCommand');
 const translateBatchCommand = require('./commands/translateBatchCommand');
+const exportCommand = require('./commands/exportCommand');
+const importCommand = require('./commands/importCommand');
+
 program
   .version(pkg.version, '-v, --version')
   .description('This tool is designed mainly for developers who are tasked to translate automatically AEM dictionaries into other languages.');
@@ -52,4 +55,23 @@ program
   .option('--keys <key>', 'A comma separated list of dictionaries keys. I.e. --keys=key1,key2,key3')
   .action(translateBatchCommand);
 
+program
+  .command('export <sourceDictionaries>')
+  .description('Exports defined set of comma-separated dictionaries to CSV format. ')
+  .option('-t, --targetFile [file]', 'Defines the name of the file where the data is exported', './export.csv')
+  .option('-s, --separator [separator]', 'Defines separator used by exporter. Defaults to semicolon.', ';')
+  .action(exportCommand);
+
+program
+  .command('import <source> <target>')
+  .description('Imports entries from csv to a target dictionary')
+  .option('-u, --updateExisting', 'Enforces script to only update existing keys in dictionary. No new entries will be added. ')
+  .option('-s, --separator [separator]', 'Defines separator used by importer. Defaults to semicolon.', ';')
+  .option('--disableSorting', 'Disable dictionary sorting')
+  .action(importCommand);
+
 program.parse(process.argv);
+
+if (program.args.length === 0) {
+  program.help();
+}
