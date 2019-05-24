@@ -1,7 +1,6 @@
 const ImportService = require('./ImportService');
-const dictionaryUtils = require('../dictionaryUtils');
+const dictionaryService = require('../dictionaryService');
 
-// TODO add tests for this class
 class CSVImportService extends ImportService {
   constructor (separator, updateExisting) {
     super();
@@ -29,7 +28,7 @@ class CSVImportService extends ImportService {
         }
       } else if (!this.updateExisting) {
         console.log('- adding new key', key, value);
-        dictionary['jcr:root'][key] = dictionaryUtils.createEntry(key, value);
+        dictionary['jcr:root'][key] = dictionaryService.createEntry(key, value);
       }
     });
     return dictionary;

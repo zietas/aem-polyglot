@@ -1,9 +1,6 @@
 const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
 const expect = chai.expect;
 const ImportService = require('../../src/migrate/ImportService');
-
-chai.use(chaiAsPromised);
 
 describe('ImportService', () => {
   let tested;

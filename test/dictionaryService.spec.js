@@ -32,6 +32,24 @@ describe('dictionaryService', () => {
     });
   });
 
+  describe('#createEntry', () => {
+    it('should create new dictionary entry', () => {
+      const key = 'some.key';
+      const value = 'Lorem ipsum dolor sith ameth';
+      const expected = {
+        '_attributes': {
+          'jcr:priaryType': 'sling:MessageEntry',
+          'sling:key': key,
+          'sling:message': value
+        }
+      };
+
+      const result = tested.createEntry(key, value);
+
+      expect(result).to.be.deep.equal(expected);
+    });
+  });
+
   describe('#sort', () => {
     it('should sort properties of a single level object', () => {
       const input = { z: 'some value', a: 'oother', c: 1 };

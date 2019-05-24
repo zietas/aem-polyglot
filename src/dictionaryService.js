@@ -2,7 +2,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const converter = require('xml-js');
 const alphabetize = require('alphabetize-object-keys');
-const dictionaryUtils = require('./dictionaryUtils');
+const dictionaryHtmlEncoder = require('./dictionaryHtmlEncoder');
 
 const DICTIONARY_TEMPLATE = {
   _declaration: {
@@ -36,8 +36,18 @@ const JSON_TO_XML_OPTIONS = {
   spaces: 4,
   indentAttributes: true,
   ignoreDeclaration: true,
-  attributeValueFn: dictionaryUtils.encodeHTML
+  attributeValueFn: dictionaryHtmlEncoder
 };
+
+function createEntry (key, value) {
+  return {
+    '_attributes': {
+      'jcr:priaryType': 'sling:MessageEntry',
+      'sling:key': key,
+      'sling:message': value
+    }
+  };
+}
 
 function create (locale) {
   const dict = _.cloneDeep(DICTIONARY_TEMPLATE);
@@ -107,6 +117,7 @@ async function saveDict (jsonDict, target) {
 
 module.exports = {
   create,
+  createEntry,
   sort,
   saveDict,
   readDict,
