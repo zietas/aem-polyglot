@@ -3,36 +3,12 @@ const chaiAsPromised = require('chai-as-promised');
 const chaiArrays = require('chai-arrays');
 const sinon = require('sinon');
 const expect = chai.expect;
+const dictionaryService = require('../../src/dictionaryService');
+const Locale = require('../../src/translate/Locale');
 const TranslateDictionaryService = require('../../src/translate/TranslateDictionaryService');
 
 chai.use(chaiAsPromised);
 chai.use(chaiArrays);
-
-function createDict (locale) {
-  const dict = {
-    'jcr:root': {
-      '_attributes': {}
-    }
-  };
-  if (locale) {
-    dict['jcr:root']['_attributes']['jcr:language'] = locale;
-  }
-  return dict;
-}
-
-function createEntry (key, value) {
-  return {
-    'jcr:primaryType': 'sling:MessageEntry',
-    'sling:key': key,
-    'sling:message': value
-  };
-}
-
-function addEntry (dict, entry) {
-  const key = entry['sling:key'];
-  dict['jcr:root'][key] = {};
-  dict['jcr:root'][key]['_attributes'] = entry;
-}
 
 const mockedTranslationService = {
   translate: async function (key, value, sourceLang, targetLang) {
@@ -58,13 +34,13 @@ describe('TranslateDictionaryService', () => {
   });
 
   describe('#translate', () => {
-    const sourceDict = createDict('en_us');
-    addEntry(sourceDict, createEntry('key1', 'value1'));
-    addEntry(sourceDict, createEntry('key2', 'value2'));
-    addEntry(sourceDict, createEntry('key3', 'value3'));
+    const sourceDict = dictionaryService.create(new Locale('en', 'us'));
+    dictionaryService.putEntry(sourceDict, 'key1', 'value1');
+    dictionaryService.putEntry(sourceDict, 'key2', 'value2');
+    dictionaryService.putEntry(sourceDict, 'key3', 'value3');
 
     it('should translate whole dictionary as target is empty', async () => {
-      const targetDict = createDict('de_de');
+      const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = Object.keys(sourceDict['jcr:root']);
 
       const tested = new TranslateDictionaryService(mockedTranslationService);
@@ -77,7 +53,7 @@ describe('TranslateDictionaryService', () => {
     });
 
     it('should translate only defined key', async () => {
-      const targetDict = createDict('de_de');
+      const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = ['_attributes', 'key1'];
 
       const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key1' });
@@ -90,7 +66,7 @@ describe('TranslateDictionaryService', () => {
     });
 
     it('should translate only defined keys', async () => {
-      const targetDict = createDict('de_de');
+      const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = ['_attributes', 'key1', 'key2'];
 
       const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key1,key2' });
@@ -103,7 +79,7 @@ describe('TranslateDictionaryService', () => {
     });
 
     it('should  not translate keys that are not defined in source dict', async () => {
-      const targetDict = createDict('de_de');
+      const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = ['_attributes', 'key3'];
 
       const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key3,key22,key45,nonExistingKey' });
@@ -116,8 +92,8 @@ describe('TranslateDictionaryService', () => {
     });
 
     it('should translate part of the dictionary as target has some entries', async () => {
-      const targetDict = createDict('de_de');
-      addEntry(targetDict, createEntry('key1', 'my own translated value'));
+      const targetDict = dictionaryService.create(new Locale('de', 'de'));
+      dictionaryService.putEntry(targetDict, 'key1', 'my own translated value');
       const expectedKeys = Object.keys(sourceDict['jcr:root']);
 
       const tested = new TranslateDictionaryService(mockedTranslationService);
@@ -132,8 +108,8 @@ describe('TranslateDictionaryService', () => {
     });
 
     it('should fail if locale cannot be extracted from source dict', () => {
-      const sourceDict = createDict();
-      const targetDict = createDict();
+      const sourceDict = dictionaryService.create(new Locale('de', 'de'));
+      const targetDict = dictionaryService.create(new Locale('de', 'de'));
 
       const tested = new TranslateDictionaryService(mockedTranslationService);
       const promise = tested.translate(sourceDict, targetDict);
@@ -142,10 +118,10 @@ describe('TranslateDictionaryService', () => {
     });
 
     it('should not translate anything as all keys in target are set', () => {
-      const targetDict = createDict('de_de');
-      addEntry(targetDict, createEntry('key1', 'value1 de'));
-      addEntry(targetDict, createEntry('key2', 'value2 de'));
-      addEntry(targetDict, createEntry('key3', 'value3 de'));
+      const targetDict = dictionaryService.create(new Locale('de', 'de'));
+      dictionaryService.putEntry(targetDict, 'key1', 'value1 de');
+      dictionaryService.putEntry(targetDict, 'key2', 'value2 de');
+      dictionaryService.putEntry(targetDict, 'key3', 'value3 de');
 
       let tested = new TranslateDictionaryService(mockedTranslationService);
 
@@ -153,7 +129,7 @@ describe('TranslateDictionaryService', () => {
     });
 
     it('should fail when translation service fails', () => {
-      const targetDict = createDict('de_de');
+      const targetDict = dictionaryService.create(new Locale('de', 'de'));
 
       const mockedTranslationServiceFailure = sinon.mock({
         translate: () => {

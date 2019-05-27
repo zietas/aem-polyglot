@@ -49,6 +49,20 @@ function createEntry (key, value) {
   };
 }
 
+function putEntry (dict, key, value) {
+  const entry = this.createEntry(key, value);
+  dict['jcr:root'][key] = entry;
+  return dict;
+}
+
+function hasEntry (dict, key) {
+  return !!getEntry(dict, key);
+}
+
+function getEntry (dict, key) {
+  return dict['jcr:root'][key];
+}
+
 function create (locale) {
   const dict = _.cloneDeep(DICTIONARY_TEMPLATE);
   dict['jcr:root']['_attributes']['jcr:language'] = locale.getLocaleISOCode();
@@ -118,6 +132,9 @@ async function saveDict (jsonDict, target) {
 module.exports = {
   create,
   createEntry,
+  putEntry,
+  hasEntry,
+  getEntry,
   sort,
   saveDict,
   readDict,

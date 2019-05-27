@@ -3,7 +3,6 @@ const expect = chai.expect;
 const CSVImportService = require('../../src/migrate/CSVImportService');
 
 describe('CSVImportService', () => {
-
   describe('#construct', () => {
     it('should set provided separator', () => {
       const separator = '\t';
@@ -24,7 +23,6 @@ describe('CSVImportService', () => {
   });
 
   describe('#import', () => {
-
     beforeEach(() => {
       this.tested = new CSVImportService();
     });

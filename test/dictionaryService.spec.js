@@ -50,6 +50,27 @@ describe('dictionaryService', () => {
     });
   });
 
+  describe('#putEntry', () => {
+    beforeEach(() => {
+      this.dictionary = tested.create(new Locale('en', 'gb'));
+    });
+
+    afterEach(() => {
+      this.dictionary = null;
+    });
+
+    it('should put entry in a dictionary', () => {
+      tested.putEntry(this.dictionary, 'key.1', 'value.1');
+      tested.putEntry(this.dictionary, 'key.2', 'value.2');
+      tested.putEntry(this.dictionary, 'key.3', 'value.3');
+
+      expect(tested.hasEntry(this.dictionary, 'key.1')).to.be.true;
+      expect(tested.hasEntry(this.dictionary, 'key.2')).to.be.true;
+      expect(tested.hasEntry(this.dictionary, 'key.3')).to.be.true;
+      expect(tested.hasEntry(this.dictionary, 'noneexistingkey')).to.be.false;
+    });
+  });
+
   describe('#sort', () => {
     it('should sort properties of a single level object', () => {
       const input = { z: 'some value', a: 'oother', c: 1 };
