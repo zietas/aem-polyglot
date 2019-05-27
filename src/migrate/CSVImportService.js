@@ -1,7 +1,6 @@
 const ImportService = require('./ImportService');
-const dictionaryUtils = require('../dictionaryUtils');
+const dictionaryService = require('../dictionaryService');
 
-// TODO add tests for this class
 class CSVImportService extends ImportService {
   constructor (separator, updateExisting) {
     super();
@@ -10,32 +9,40 @@ class CSVImportService extends ImportService {
   }
 
   import (csv, dictionary) {
-    const json = this._toJS(csv);
-    return this._fillDictionary(json, dictionary);
+    const result = this._processCSV(csv);
+    const dictLang = this._getDictionaryLang(dictionary);
+    if (!result.languages.includes(dictLang)) {
+      throw new Error(`Provided CSV does not contain translations for '${dictLang}'`);
+    }
+    return this._fillDictionary(result.entries, dictionary);
+  }
+
+  _getDictionaryLang (dictionary) {
+    return dictionary['jcr:root']['_attributes']['jcr:language'];
   }
 
   _fillDictionary (json, dictionary) {
-    const lang = dictionary['jcr:root']['_attributes']['jcr:language'];
+    const lang = this._getDictionaryLang(dictionary);
 
     Object.keys(json).forEach((key) => {
       const value = json[key][lang];
 
       if (dictionary['jcr:root'][key]) {
         if (dictionary['jcr:root'][key]['_attributes']['sling:message'] !== value) {
-          console.log('- updating new key', key, value);
+          console.log(`- updating key '${key} -> ${value}'`);
           dictionary['jcr:root'][key]['_attributes']['sling:message'] = value;
         } else {
-          console.log('- skipping key', key);
+          console.log(`- skipping key '${key}'`);
         }
       } else if (!this.updateExisting) {
-        console.log('- adding new key', key, value);
-        dictionary['jcr:root'][key] = dictionaryUtils.createEntry(key, value);
+        console.log(`- adding new key '${key} -> ${value}'`);
+        dictionary['jcr:root'][key] = dictionaryService.createEntry(key, value);
       }
     });
     return dictionary;
   }
 
-  _toJS (csv) {
+  _processCSV (csv) {
     const entries = {};
     const langs = [];
 
@@ -58,7 +65,7 @@ class CSVImportService extends ImportService {
           }
         }
       });
-    return entries;
+    return { entries: entries, languages: langs };
   }
 }
 

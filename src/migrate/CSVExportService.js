@@ -1,6 +1,5 @@
 const ExportService = require('./ExportService');
 
-// TODO add tests for this class
 class CSVExportService extends ExportService {
   constructor (separator) {
     super();
