@@ -56,7 +56,7 @@ describe('TranslateDictionaryService', () => {
       const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = ['_attributes', 'key1'];
 
-      const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key1' });
+      const tested = new TranslateDictionaryService(mockedTranslationService, {keys: 'key1'});
 
       const translatedDict = await tested.translate(sourceDict, targetDict);
 
@@ -69,7 +69,7 @@ describe('TranslateDictionaryService', () => {
       const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = ['_attributes', 'key1', 'key2'];
 
-      const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key1,key2' });
+      const tested = new TranslateDictionaryService(mockedTranslationService, {keys: 'key1,key2'});
 
       const translatedDict = await tested.translate(sourceDict, targetDict);
 
@@ -82,7 +82,7 @@ describe('TranslateDictionaryService', () => {
       const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = ['_attributes', 'key3'];
 
-      const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key3,key22,key45,nonExistingKey' });
+      const tested = new TranslateDictionaryService(mockedTranslationService, {keys: 'key3,key22,key45,nonExistingKey'});
 
       const translatedDict = await tested.translate(sourceDict, targetDict);
 
@@ -107,17 +107,17 @@ describe('TranslateDictionaryService', () => {
       expect(translatedDict['jcr:root']['key2']['_attributes']['sling:message']).to.be.equal('value2 de');
     });
 
-    it('should fail if locale cannot be extracted from source dict', () => {
+    it('should fail if locale cannot be extracted from source dict', async () => {
       const sourceDict = dictionaryService.create(new Locale('de', 'de'));
       const targetDict = dictionaryService.create(new Locale('de', 'de'));
+      delete sourceDict['jcr:root']['_attributes']['jcr:language'];
 
       const tested = new TranslateDictionaryService(mockedTranslationService);
-      const promise = tested.translate(sourceDict, targetDict);
 
-      expect(promise).to.be.rejectedWith('Could not extract locale from input dictionary');
+      await expect(tested.translate(sourceDict, targetDict)).to.be.rejectedWith('Could not extract locale from input dictionary');
     });
 
-    it('should not translate anything as all keys in target are set', () => {
+    it('should not translate anything as all keys in target are set', async () => {
       const targetDict = dictionaryService.create(new Locale('de', 'de'));
       dictionaryService.putEntry(targetDict, 'key1', 'value1 de');
       dictionaryService.putEntry(targetDict, 'key2', 'value2 de');
@@ -125,7 +125,7 @@ describe('TranslateDictionaryService', () => {
 
       let tested = new TranslateDictionaryService(mockedTranslationService);
 
-      return expect(tested.translate(sourceDict, targetDict)).to.be.rejectedWith('No new entries found between \'en_us\' and \'de_de\' dictionaries');
+      await expect(tested.translate(sourceDict, targetDict)).to.be.rejectedWith('No new entries found between \'en_us\' and \'de_de\' dictionaries');
     });
 
     it('should fail when translation service fails', () => {
@@ -134,7 +134,7 @@ describe('TranslateDictionaryService', () => {
       const mockedTranslationServiceFailure = sinon.mock({
         translate: () => {
           return new Promise((resolve, reject) => {
-            resolve({ code: 500 });
+            resolve({code: 500});
           });
         }
       });
