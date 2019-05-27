@@ -2,13 +2,13 @@ const ImportService = require('./ImportService');
 const dictionaryService = require('../dictionaryService');
 
 class CSVImportService extends ImportService {
-  constructor(separator, updateExisting) {
+  constructor (separator, updateExisting) {
     super();
     this.separator = separator || ';';
     this.updateExisting = updateExisting || false;
   }
 
-  import(csv, dictionary) {
+  import (csv, dictionary) {
     const result = this._processCSV(csv);
     const dictLang = this._getDictionaryLang(dictionary);
     if (!result.languages.includes(dictLang)) {
@@ -17,11 +17,11 @@ class CSVImportService extends ImportService {
     return this._fillDictionary(result.entries, dictionary);
   }
 
-  _getDictionaryLang(dictionary) {
+  _getDictionaryLang (dictionary) {
     return dictionary['jcr:root']['_attributes']['jcr:language'];
   }
 
-  _fillDictionary(json, dictionary) {
+  _fillDictionary (json, dictionary) {
     const lang = this._getDictionaryLang(dictionary);
 
     Object.keys(json).forEach((key) => {
@@ -29,20 +29,20 @@ class CSVImportService extends ImportService {
 
       if (dictionary['jcr:root'][key]) {
         if (dictionary['jcr:root'][key]['_attributes']['sling:message'] !== value) {
-          console.log(`- updating key '${key} -> ${value}'` );
+          console.log(`- updating key '${key} -> ${value}'`);
           dictionary['jcr:root'][key]['_attributes']['sling:message'] = value;
         } else {
           console.log(`- skipping key '${key}'`);
         }
       } else if (!this.updateExisting) {
-        console.log(`- adding new key '${key} -> ${value}'` );
+        console.log(`- adding new key '${key} -> ${value}'`);
         dictionary['jcr:root'][key] = dictionaryService.createEntry(key, value);
       }
     });
     return dictionary;
   }
 
-  _processCSV(csv) {
+  _processCSV (csv) {
     const entries = {};
     const langs = [];
 
@@ -65,7 +65,7 @@ class CSVImportService extends ImportService {
           }
         }
       });
-    return {entries: entries, languages: langs};
+    return { entries: entries, languages: langs };
   }
 }
 

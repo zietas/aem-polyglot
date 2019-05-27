@@ -56,7 +56,7 @@ describe('TranslateDictionaryService', () => {
       const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = ['_attributes', 'key1'];
 
-      const tested = new TranslateDictionaryService(mockedTranslationService, {keys: 'key1'});
+      const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key1' });
 
       const translatedDict = await tested.translate(sourceDict, targetDict);
 
@@ -69,7 +69,7 @@ describe('TranslateDictionaryService', () => {
       const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = ['_attributes', 'key1', 'key2'];
 
-      const tested = new TranslateDictionaryService(mockedTranslationService, {keys: 'key1,key2'});
+      const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key1,key2' });
 
       const translatedDict = await tested.translate(sourceDict, targetDict);
 
@@ -82,7 +82,7 @@ describe('TranslateDictionaryService', () => {
       const targetDict = dictionaryService.create(new Locale('de', 'de'));
       const expectedKeys = ['_attributes', 'key3'];
 
-      const tested = new TranslateDictionaryService(mockedTranslationService, {keys: 'key3,key22,key45,nonExistingKey'});
+      const tested = new TranslateDictionaryService(mockedTranslationService, { keys: 'key3,key22,key45,nonExistingKey' });
 
       const translatedDict = await tested.translate(sourceDict, targetDict);
 
@@ -134,7 +134,7 @@ describe('TranslateDictionaryService', () => {
       const mockedTranslationServiceFailure = sinon.mock({
         translate: () => {
           return new Promise((resolve, reject) => {
-            resolve({code: 500});
+            resolve({ code: 500 });
           });
         }
       });

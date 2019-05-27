@@ -31,7 +31,6 @@ describe('CSVImportService', () => {
   });
 
   describe('#import', () => {
-
     beforeEach(() => {
       this.consoleSpy = sinon.spy(console, 'log');
     });
@@ -40,7 +39,7 @@ describe('CSVImportService', () => {
       this.consoleSpy.restore();
     });
 
-    function createDictionary(language, country, keyCount) {
+    function createDictionary (language, country, keyCount) {
       const locale = new Locale(language, country);
       const dict = dictionaryService.create(locale);
       for (let i = 0; i < keyCount; i++) {
@@ -49,7 +48,7 @@ describe('CSVImportService', () => {
       return dict;
     }
 
-    function createCSV(languages, keyCount, prefix) {
+    function createCSV (languages, keyCount, prefix) {
       prefix = prefix || '';
       const matrix = [];
       const firstRow = ['key'];
@@ -69,7 +68,7 @@ describe('CSVImportService', () => {
       return csv;
     }
 
-    function getDictionaryKeys(dictionary){
+    function getDictionaryKeys (dictionary) {
       return Object.keys(dictionary['jcr:root'])
         .filter((item) => item !== '_attributes');
     }
@@ -104,7 +103,7 @@ describe('CSVImportService', () => {
       const keys = getDictionaryKeys(result);
 
       expect(keys).to.be.ofSize(5);
-      expect(keys).to.be.equalTo(['key.0','key.1','key.2','key.3','key.4']);
+      expect(keys).to.be.equalTo(['key.0', 'key.1', 'key.2', 'key.3', 'key.4']);
 
       for (let i = 0; i < 5; i++) {
         expect(this.consoleSpy).to.have.been.calledWith(`- updating key 'key.${i} -> newvalue ${i} en_gb'`);
