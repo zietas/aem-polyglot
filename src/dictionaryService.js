@@ -42,7 +42,7 @@ const JSON_TO_XML_OPTIONS = {
 function createEntry (key, value) {
   return {
     '_attributes': {
-      'jcr:priaryType': 'sling:MessageEntry',
+      'jcr:primaryType': 'sling:MessageEntry',
       'sling:key': key,
       'sling:message': value
     }

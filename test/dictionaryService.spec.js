@@ -38,7 +38,7 @@ describe('dictionaryService', () => {
       const value = 'Lorem ipsum dolor sith ameth';
       const expected = {
         '_attributes': {
-          'jcr:priaryType': 'sling:MessageEntry',
+          'jcr:primaryType': 'sling:MessageEntry',
           'sling:key': key,
           'sling:message': value
         }
